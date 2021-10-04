@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    tools:context=".NoteScreenActivity">
+    <TextView
+        android:id="@+id/activity_note_screen_TXT_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Create a new note"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/activity_note_screen_EDT_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Title"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/activity_note_screen_TXT_title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/activity_note_screen_EDT_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Body"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/activity_note_screen_EDT_title"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+    android:layout_below="@id/activity_note_screen_EDT_body">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:text="delete"
+        android:id="@+id/activity_note_screen_BTN_delete"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="save"
+            android:id="@+id/activity_note_screen_BTN_save"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
