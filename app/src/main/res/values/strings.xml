@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LocationBasedNotes</string>
+    <string name="AllUsersFirebase">AllUsers</string>
+    <string name="UserKey">user</string>
 </resources>
