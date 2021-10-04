@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "910320179647",
+    "project_id": "locationbasednotes-a4470",
+    "storage_bucket": "locationbasednotes-a4470.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910320179647:android:e7a45b098cce957bf8290a",
+        "android_client_info": {
+          "package_name": "com.android.locationbasednotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910320179647-qvnr877lv059di6v13183btjgb79t00h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIeWcYfrsCyorSxm_WmHl_06RsBS0b5nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910320179647-qvnr877lv059di6v13183btjgb79t00h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
