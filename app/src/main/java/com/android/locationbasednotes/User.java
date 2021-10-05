@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+
     private String email;
     private String password;
     private String Uid;
@@ -17,7 +18,7 @@ public class User {
         this.password = password;
         this.noteList = new ArrayList<>();
         this.Uid = uid;
-        this.loginAuth = false;
+         this.loginAuth = false;
     }
     public User(){}
     public User(String userString) {createUserFromString(userString); }

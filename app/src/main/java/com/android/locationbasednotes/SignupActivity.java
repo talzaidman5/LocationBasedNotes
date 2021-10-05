@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), getString(R.string.emptyFields), Toast.LENGTH_SHORT).show();
     }
 
-    private void SaveToFirebase(User userToSave) {
+    protected void SaveToFirebase(User userToSave) {
         myRef.child(userToSave.getUid()).setValue(userToSave);
     }
     protected void putOnMSP(User userToSave) {

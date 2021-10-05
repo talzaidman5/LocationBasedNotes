@@ -30,21 +30,17 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
         InitData();
 
         if (currentUserFB != null) {
             ReadFromFirebase();
+
+
+        } else {
             finish();
-            if (currentUser.isLoginAuth())
-                startActivity(new Intent(this, MainScreenActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
-        startActivity(new Intent(this, MainActivity.class));
-
-
-//        else {
-//            finish();
-//            startActivity(new Intent(this, SignupActivity.class));
-//        }
     }
 
     private void InitData() {
@@ -61,14 +57,21 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
-                Log.d("checking","work");
-
+                if (currentUser.isLoginAuth()) {
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                }
+                else
+                {
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
                 putOnMSP();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("checking","check");
+                Log.d("ffff","fff");
             }
         });
     }

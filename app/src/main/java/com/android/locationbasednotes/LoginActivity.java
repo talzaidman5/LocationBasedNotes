@@ -3,6 +3,7 @@ package com.android.locationbasednotes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ import org.w3c.dom.Text;
 
 public class LoginActivity extends  SignupActivity {
     private FirebaseUser user;
-
+    private boolean isLoginAuth= false;
+    private User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +52,28 @@ public class LoginActivity extends  SignupActivity {
         isLoginAuthText.setText(getString(R.string.loginAuthText));
 
         isLoginAuthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher_background));
+        isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
         isLoginAuthButton.setId(R.id.signUp_BTN_loginAuth);
+        isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
 
+        isLoginAuthButton.setOnClickListener(v -> {
+            AuthLoginButtonClick(isLoginAuthButton);
+        });
         linearLayout.addView(isLoginAuthButton);
         linearLayout.addView(isLoginAuthText);
         signUp_LIY_layout.addView(linearLayout);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        linearLayout.setGravity(Gravity.LEFT);
+
+
+    }
+
+    private void AuthLoginButtonClick(Button isLoginAuthButton) {
+        isLoginAuth=!isLoginAuth;
+        if(isLoginAuth)
+            isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_check_circle_outline_black_24));
+        else
+            isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
     }
 
     private void register(String email, String password) {
@@ -66,7 +84,10 @@ public class LoginActivity extends  SignupActivity {
                         if (task.isSuccessful()) {
                             user = auth.getCurrentUser();
                             getFromFirebase();
-                            startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+//                            if(isLoginAuth)
+//                                SaveToFirebase(currentUser);
+//                            finish();
+//                            startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }
@@ -77,8 +98,14 @@ public class LoginActivity extends  SignupActivity {
         myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User currentUser = dataSnapshot.getValue(User.class);
+                currentUser = dataSnapshot.getValue(User.class);
                 putOnMSP(currentUser);
+                if (isLoginAuth){
+                    currentUser.setLoginAuth(isLoginAuth);
+                    SaveToFirebase(currentUser);
+                }
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
             }
 
             @Override
