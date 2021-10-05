@@ -7,28 +7,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.locationbasednotes.utils.MySheredP;
-
 public class MainActivity extends AppCompatActivity {
+    private Button main_activity_BTN_login,main_activity_BTN_signup;
 
-    private Button activity_main_BTN_createNewNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FindViews();
-
-        activity_main_BTN_createNewNote.setOnClickListener(new View.OnClickListener() {
+        main_activity_BTN_login =  findViewById(R.id.main_activity_BTN_login);
+        main_activity_BTN_signup =  findViewById(R.id.main_activity_BTN_signup);
+        main_activity_BTN_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent(getApplicationContext(), NoteScreenActivity.class));
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
-    }
+        main_activity_BTN_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+            }
+        });
 
-    private void FindViews() {
-        activity_main_BTN_createNewNote = findViewById(R.id.activity_main_BTN_createNewNote);
     }
-
 }

@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_margin="20dp"
     tools:context=".MainActivity">
-<Button
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:id="@+id/activity_main_BTN_logout"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentTop="true"
-    android:background="@drawable/outline_logout_black_48">
-</Button>
     <TextView
-        android:id="@+id/activity_main_TXT_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Welcome!"
+        android:text="Note app"
         android:textColor="@color/black"
         android:textSize="40dp"
-        android:layout_below="@id/activity_main_BTN_logout"
-        android:layout_marginTop="20dp"
         android:textStyle="bold" />
-
     <Button
-        android:id="@+id/activity_main_BTN_createNewNote"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new note"
-        android:textColor="@color/black"
-        android:textSize="22dp"
-        android:layout_below="@id/activity_main_TXT_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"/>
-</RelativeLayout>
+        android:text="login"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/main_activity_BTN_login"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="signup"
+        android:layout_gravity="center"
+        android:id="@+id/main_activity_BTN_signup"/>
+
+</LinearLayout>

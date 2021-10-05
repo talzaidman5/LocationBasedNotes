@@ -2,4 +2,9 @@
     <string name="app_name">LocationBasedNotes</string>
     <string name="AllUsersFirebase">AllUsers</string>
     <string name="UserKey">user</string>
+    <string name="login">Login</string>
+    <string name="AuthenticationFailed">Authentication failed</string>
+    <string name="emptyFields">Please Enter fields</string>
+    <string name="loginAuthButton">signUp_BTN_loginAuth</string>
+    <string name="loginAuthText">Login automatically</string>
 </resources>

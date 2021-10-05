@@ -10,12 +10,14 @@ public class User {
     private String password;
     private String Uid;
     private List<Note> noteList;
+    private boolean loginAuth;
 
     public User( String email, String password,String uid) {
         this.email = email;
         this.password = password;
         this.noteList = new ArrayList<>();
         this.Uid = uid;
+        this.loginAuth = false;
     }
     public User(){}
     public User(String userString) {createUserFromString(userString); }
@@ -26,6 +28,14 @@ public class User {
 
         public String getUid() {
         return Uid;
+    }
+
+    public boolean isLoginAuth() {
+        return loginAuth;
+    }
+
+    public void setLoginAuth(boolean loginAuth) {
+        this.loginAuth = loginAuth;
     }
 
     public void setUid(String uid) {

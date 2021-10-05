@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,15 +22,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
-public class SignupActivity extends AppCompatActivity {
-    private Button signUp_BTN_signUp;
-    private EditText signUp_EDT_email,signUp_EDT_password;
-    private FirebaseAuth auth;
-    private TextView signUp_TXT_error;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef;
-    private Gson gson = new Gson();
-    private MySheredP msp;
+public class SignupActivity extends AppCompatActivity  {
+    protected Button signUp_BTN_signUp;
+    protected EditText signUp_EDT_email,signUp_EDT_password;
+    protected FirebaseAuth auth;
+    protected TextView activity_main_TXT_title;
+    protected FirebaseDatabase database = FirebaseDatabase.getInstance();
+    protected DatabaseReference myRef;
+    protected Gson gson = new Gson();
+    protected MySheredP msp;
+    protected LinearLayout signUp_LIY_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +63,19 @@ public class SignupActivity extends AppCompatActivity {
                         SaveToFirebase(user);
                         putOnMSP(user);
                         finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
                     } else
-                        signUp_TXT_error.setText(task.getException().getMessage());
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else
-            signUp_TXT_error.setText("Please Enter fields");
+            Toast.makeText(getApplicationContext(), getString(R.string.emptyFields), Toast.LENGTH_SHORT).show();
     }
 
     private void SaveToFirebase(User userToSave) {
         myRef.child(userToSave.getUid()).setValue(userToSave);
-
     }
-    private void putOnMSP(User userToSave) {
+    protected void putOnMSP(User userToSave) {
         String user = gson.toJson(userToSave);
         msp.putString(getString(R.string.UserKey), user);
     }
@@ -82,6 +84,8 @@ public class SignupActivity extends AppCompatActivity {
         signUp_BTN_signUp =  findViewById(R.id.signUp_BTN_signUp);
         signUp_EDT_email =  findViewById(R.id.signUp_EDT_email);
         signUp_EDT_password =  findViewById(R.id.signUp_EDT_password);
-        signUp_TXT_error =  findViewById(R.id.signUp_TXT_error);
+        activity_main_TXT_title =  findViewById(R.id.activity_main_TXT_title);
+        signUp_LIY_layout =  findViewById(R.id.signUp_LIY_layout);
     }
+
 }

@@ -8,7 +8,7 @@ public class Note {
     private Date date;
     private String title;
     private String body;
-
+  //  private Loca
     public Note(){}
 
     public Note(String title, String body) {

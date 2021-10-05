@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
@@ -34,11 +35,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (currentUserFB != null) {
             ReadFromFirebase();
             finish();
-            startActivity(new Intent(this, MainActivity.class));
-        } else {
-            finish();
-            startActivity(new Intent(this, SignupActivity.class));
+            if (currentUser.isLoginAuth())
+                startActivity(new Intent(this, MainScreenActivity.class));
         }
+        startActivity(new Intent(this, MainActivity.class));
+
+
+//        else {
+//            finish();
+//            startActivity(new Intent(this, SignupActivity.class));
+//        }
     }
 
     private void InitData() {
@@ -55,12 +61,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
+                Log.d("checking","work");
+
                 putOnMSP();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d("checking","check");
             }
         });
     }

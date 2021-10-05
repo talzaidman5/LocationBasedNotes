@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity">
-    <LinearLayout
-        android:id="@+id/first"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="right"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+    tools:context=".SignupActivity"
+    android:gravity="right"
+    android:layout_margin="20dp"
+    android:id="@+id/signUp_LIY_layout"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/activity_main_TXT_title"
@@ -58,14 +55,6 @@
             app:cornerRadius="10dp"
             android:layout_marginTop="20dp"
             app:strokeColor="@color/black" />
-        <TextView
-            android:id="@+id/signUp_TXT_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/red"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp" />
+
 
     </LinearLayout>
-</RelativeLayout>
