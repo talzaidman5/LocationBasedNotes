@@ -38,4 +38,52 @@
         android:layout_below="@id/activity_main_TXT_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/activity_main_BTN_createNewNote">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:id="@+id/activity_main_LTN_allNotes">
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="#444"
+                    android:text="Button 8"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="#ff002211"
+                    android:text="Button 9"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="#0f0"
+                    android:text="Button 10"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
 </RelativeLayout>
