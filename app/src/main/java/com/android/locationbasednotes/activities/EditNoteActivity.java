@@ -3,10 +3,8 @@ package com.android.locationbasednotes.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
 
 public class EditNoteActivity extends NoteScreenActivity {
 
@@ -27,7 +24,6 @@ public class EditNoteActivity extends NoteScreenActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
         currentNote = getNoteFromMSP();
         currentUser = getUserFromMSP();
 
@@ -80,16 +76,7 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void deleteNote() {
 
-        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(), "Note deleted", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-            }
-        });
+        firebaseManager.deleteImageFromStorage(currentUser,currentNote,"Note deleted");
         currentUser.deleteNote(currentNote);
         firebaseManager.writeToFirebase(currentUser);
     }
@@ -109,28 +96,28 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void downloadImage() {
         getUserFromMSP();
-        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
-                addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        isAddImage = true;
-                        Glide
-                                .with(getApplicationContext())
-                                .load(uri)
-                                .into(activity_note_screen_IMG_image);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-
-            }
-        });
-
+//        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
+//                addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        isAddImage = true;
+//                        Glide
+//                                .with(getApplicationContext())
+//                                .load(uri)
+//                                .into(activity_note_screen_IMG_image);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//
+//            }
+//        });
+//
     }
 
     @Override

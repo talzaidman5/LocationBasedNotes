@@ -62,14 +62,11 @@ public class NoteScreenActivity extends AppCompatActivity {
     private ProgressBar activity_note_screen_PRB_progressBar;
     protected User currentUser;
     protected Note currentNote;
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef;
     private LocationRequest locationRequest;
     private List<Double> vetLocation = new ArrayList<>();
     protected ImageView activity_note_screen_IMG_image;
     protected boolean isAddImage = false;
     private Uri fileUri;
-    protected StorageReference mStorageRef;
     private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
     protected FirebaseManager firebaseManager;
 
@@ -100,7 +97,6 @@ public class NoteScreenActivity extends AppCompatActivity {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mStorageRef = FirebaseStorage.getInstance().getReference();
         firebaseManager = FirebaseManager.GetInstance();
 
         msp = new MySheredP(this);
@@ -249,20 +245,10 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     protected void saveImage(Note note) {
+
         if (fileUri != null) {
-            mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
-                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
-                            note.setImage(true);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            firebaseManager.saveImageInStorage(note,fileUri,getApplicationContext());
+            note.setImage(true);
         }
     }
     private void addNoteToUser(Note note) {
