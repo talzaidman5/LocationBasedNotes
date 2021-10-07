@@ -36,7 +36,8 @@ public class LoginActivity extends SignupActivity {
         signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
+                if(checkFields(signUp_EDT_email)&&checkFields(signUp_EDT_password))
+                    register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
             }
         });
     }

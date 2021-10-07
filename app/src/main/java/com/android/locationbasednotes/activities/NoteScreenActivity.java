@@ -76,11 +76,11 @@ public class NoteScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
         getSupportActionBar().hide();
-        activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
 
         initData();
         findViews();
         getUserFromMSP();
+        activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
 
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override

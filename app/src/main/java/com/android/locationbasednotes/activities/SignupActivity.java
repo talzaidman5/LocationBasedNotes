@@ -55,7 +55,7 @@ public class SignupActivity extends AppCompatActivity  {
             }
         });
     }
-    private boolean checkFields(EditText editTextToCheck) {
+    protected boolean checkFields(EditText editTextToCheck) {
         if (editTextToCheck.getText().toString().equals("")) {
             editTextToCheck.setError(getText(R.string.editTextError));
             return false;
