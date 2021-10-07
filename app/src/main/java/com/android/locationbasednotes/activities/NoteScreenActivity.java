@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +59,10 @@ public class NoteScreenActivity extends AppCompatActivity {
     protected EditText activity_note_screen_EDT_title, activity_note_screen_EDT_body;
     protected TextView activity_note_screen_TXT_title;
     private MySheredP msp;
+    private ProgressBar activity_note_screen_PRB_progressBar;
     protected User currentUser;
     protected Note currentNote;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private LocationRequest locationRequest;
     private List<Double> vetLocation = new ArrayList<>();
@@ -74,6 +76,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
         getSupportActionBar().hide();
+        activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
 
         initData();
         findViews();
@@ -83,23 +86,11 @@ public class NoteScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkFields(activity_note_screen_EDT_title) && checkFields(activity_note_screen_EDT_body))
+                    activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
                     saveNote();
             }
         });
-        activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getImage();
-            }
-        });
-        activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-
-            }
-        });
+        activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
     }
 
     private void initData() {
@@ -273,6 +264,7 @@ public class NoteScreenActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void addNoteToUser(Note note) {
@@ -293,6 +285,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_TXT_title = findViewById(R.id.activity_note_screen_TXT_title);
         activity_note_screen_BTN_uploadImage = findViewById(R.id.activity_note_screen_BTN_uploadImage);
         activity_note_screen_IMG_image = findViewById(R.id.activity_note_screen_IMG_image);
+        activity_note_screen_PRB_progressBar = findViewById(R.id.activity_note_screen_PRB_progressBar);
     }
 
     protected User getUserFromMSP() {

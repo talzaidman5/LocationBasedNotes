@@ -62,6 +62,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="30dp"
+        android:id="@+id/activity_note_screen_LNL_linearLayout"
         android:layout_below="@id/activity_note_screen_BTN_uploadImage">
 
         <Button
@@ -80,5 +81,15 @@
             android:id="@+id/activity_note_screen_BTN_save"/>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/activity_note_screen_PRB_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/activity_note_screen_LNL_linearLayout"
+        android:layout_weight="1" />
 
 </RelativeLayout>
