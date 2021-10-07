@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class ListModeFragment extends Fragment {
@@ -40,6 +44,14 @@ public class ListModeFragment extends Fragment {
         return view;
     }
     public void showAllNotes() {
+        Collections.sort(currentUser.getNoteList(), new Comparator<Note>() {
+            @Override
+            public int compare(Note note1, Note note2) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return note1.getDate().compareTo(note2.getDate());
+            }
+        });
+
         if (currentUser.getNoteList() != null) {
             Adapter_Note adapter_note = new Adapter_Note(currentUser.getNoteList(),getContext());
             activity_main_LST_notes.setLayoutManager(new LinearLayoutManager(getContext()));

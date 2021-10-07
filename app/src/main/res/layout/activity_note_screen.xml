@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    android:background="#FFEF87"
     tools:context=".activities.NoteScreenActivity">
     <TextView
         android:id="@+id/activity_note_screen_TXT_title"
@@ -41,6 +42,7 @@
         android:layout_marginTop="20dp"
         android:inputType="textCapSentences|textMultiLine"
         android:layout_below="@+id/activity_note_screen_EDT_title"
+        android:maxLines="5"
         android:textStyle="bold" />
     <ImageView
         android:layout_width="100dp"

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.locationbasednotes.activities.EditNoteActivity;
+import com.android.locationbasednotes.activities.MainActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
@@ -47,14 +48,11 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    // get the size of the list
     @Override
     public int getItemCount() {
         return notes == null ? 0 : notes.size();
     }
 
-
-    // specify the row layout file and click for each row
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_NORMAL) {
@@ -79,23 +77,27 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(currentNote.isImage())
             downloadImage(mHolder);
         else
-            mHolder.note_IMG_image.setBackgroundColor(Color.GRAY);
-
+            mHolder.note_IMG_image.setBackgroundColor(context.getColor(R.color.noteWithoutImage));
         mHolder.note_LBL_title.setText(currentNote.getTitle());
         mHolder.note_LBL_body.setText(currentNote.getBody());
         DateFormat dateFormat =  android.text.format.DateFormat.getDateFormat(context);
-        mHolder.note_LBL_date.setText(dateFormat.format(currentNote.getDate()));;
+        mHolder.note_LBL_date.setText(dateFormat.format(currentNote.getDate()));
+
         mHolder.note_BTN_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("noteID","EDIT "+currentNote.getID());
-
+                int pos = mHolder.getLayoutPosition();
+                currentNote = (Note) getItem(pos);
                 editNote();
             }
         });
 
     }
+    private void editNote() {
+        saveNoteInMSF();
+        context.startActivity(new Intent(context, EditNoteActivity.class));
 
+    }
     private void downloadImage(ViewHolder_Normal mHolder) {
         getUserFromMSP();
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
@@ -123,11 +125,6 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    private void editNote() {
-        saveNoteInMSF();
-        context.startActivity(new Intent(context, EditNoteActivity.class));
-
-    }
 
     private void saveNoteInMSF() {
         String note = gson.toJson(currentNote);
@@ -160,7 +157,6 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            Log.d("onclick", "onClick " + getLayoutPosition());
         }
     }
     private User getUserFromMSP() {

@@ -55,7 +55,7 @@ import java.util.List;
 
 public class NoteScreenActivity extends AppCompatActivity {
     protected Button activity_note_screen_BTN_save, activity_note_screen_BTN_delete;
-    private Button activity_note_screen_BTN_uploadImage;
+    protected Button activity_note_screen_BTN_uploadImage;
     protected EditText activity_note_screen_EDT_title, activity_note_screen_EDT_body;
     protected TextView activity_note_screen_TXT_title;
     private MySheredP msp;
@@ -66,7 +66,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private LocationRequest locationRequest;
     private List<Double> vetLocation = new ArrayList<>();
-    private ImageView activity_note_screen_IMG_image;
+    protected ImageView activity_note_screen_IMG_image;
     private boolean isAddImage = false;
     private Uri fileUri;
     protected StorageReference mStorageRef;
@@ -130,7 +130,6 @@ public class NoteScreenActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 fileUri = data.getData();
                 isAddImage = true;
-                activity_note_screen_IMG_image.setImageURI(fileUri);
             } else if (resultCode == ImagePicker.RESULT_ERROR)
                 Toast.makeText(this, new ImagePicker().Companion.getError(data), Toast.LENGTH_SHORT).show();
             else
@@ -248,7 +247,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         return true;
     }
 
-    private void saveImage(Note note) {
+    protected void saveImage(Note note) {
 
         mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -302,7 +301,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         return currentNote;
     }
 
-    private void getImage() {
+    protected void getImage() {
         ImagePicker.Companion
                 .with(this)
                 .crop()

@@ -1,15 +1,24 @@
 package com.android.locationbasednotes.activities;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.android.locationbasednotes.Adapter_Note;
 import com.android.locationbasednotes.R;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class EditNoteActivity extends NoteScreenActivity {
@@ -22,30 +31,48 @@ public class EditNoteActivity extends NoteScreenActivity {
         activity_note_screen_TXT_title.setText(getString(R.string.editNote));
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-       currentNote = getNoteFromMSP();
-       currentUser = getUserFromMSP();
-       updateNote();
-       activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               activity_note_screen_EDT_title.setEnabled(true);
-               activity_note_screen_EDT_body.setEnabled(true);
+        currentNote = getNoteFromMSP();
+        currentUser = getUserFromMSP();
+        updateNote();
+        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity_note_screen_EDT_title.setEnabled(true);
+                activity_note_screen_EDT_body.setEnabled(true);
 
-               currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getText().toString());
-               currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getText().toString());
-               saveToFirebase(currentUser);
-               Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
-
-           }
-       });
+                currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getText().toString());
+                currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getText().toString());
+                saveToFirebase(currentUser);
+                Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
+                activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getImage();
+                    }
+                });
+            }
+        });
         activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    deleteNote();
+                deleteNote();
             }
         });
+        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentUser.getNote(currentNote.getID()).setImage(true);
+                saveImage(currentUser.getNote(currentNote.getID()));
+                saveToFirebase(currentUser);
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
 
+
+            }
+        });
     }
+
+
 
     private void deleteNote() {
 
@@ -69,7 +96,41 @@ public class EditNoteActivity extends NoteScreenActivity {
 
         activity_note_screen_EDT_title.setEnabled(true);
         activity_note_screen_EDT_body.setEnabled(true);
+        if (currentNote.isImage())
+            downloadImage(activity_note_screen_IMG_image);
+        else
+            activity_note_screen_IMG_image.setBackgroundColor(getColor(R.color.noteWithoutImage));
+
+    }
+
+        private void downloadImage(ImageView activity_note_screen_IMG_image) {
+            getUserFromMSP();
+            mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
+                    addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide
+                                    .with(getApplicationContext())
+                                    .load(uri)
+                                    .into(activity_note_screen_IMG_image);
 
 
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+
+                }
+            });
+
+        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

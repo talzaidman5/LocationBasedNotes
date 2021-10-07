@@ -4,4 +4,5 @@
     android:id="@+id/map_mode_FRG_map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
+    android:background="#FFEF87"
     android:layout_height="match_parent" />

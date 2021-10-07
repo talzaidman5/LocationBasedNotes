@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="20dp"
+    android:background="@drawable/background"
     tools:context=".activities.MainActivity">
     <TextView
         android:layout_width="match_parent"
@@ -14,29 +14,26 @@
         android:gravity="center"
         android:text="Note app"
         android:textColor="@color/black"
+        android:layout_above="@+id/main_activity_BTN_login"
         android:textSize="40dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/notes"></ImageView>
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="login"
         android:layout_marginTop="50dp"
-        android:layout_gravity="center"
         android:textSize="20dp"
+        android:layout_centerInParent="true"
         android:id="@+id/main_activity_BTN_login"/>
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="signup"
         android:textSize="20dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/main_activity_BTN_login"
         android:layout_gravity="center"
         android:id="@+id/main_activity_BTN_signup"/>
 
-</LinearLayout>
+</RelativeLayout>

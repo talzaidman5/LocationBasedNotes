@@ -9,6 +9,7 @@
     android:gravity="right"
     android:layout_margin="20dp"
     android:id="@+id/signUp_LIY_layout"
+    android:background="#FFEF87"
     android:orientation="vertical">
 
     <TextView

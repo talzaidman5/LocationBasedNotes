@@ -10,4 +10,6 @@
     <color name="light_white">#C8FFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="gray">#BABABA</color>
+    <color name="noteWithoutImage">#BABABA</color>
+
 </resources>
