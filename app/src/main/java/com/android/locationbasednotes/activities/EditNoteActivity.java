@@ -1,6 +1,7 @@
 package com.android.locationbasednotes.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,9 +48,11 @@ public class EditNoteActivity extends NoteScreenActivity {
     }
 
     private void deleteNote() {
+
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Note deleted", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
