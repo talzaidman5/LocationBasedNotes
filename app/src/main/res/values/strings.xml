@@ -14,5 +14,8 @@
     <string name="editNote">Edit Note</string>
     <string name="noteKey">note</string>
     <string name="editTextError">Can\'t be null</string>
-    <string name="signup">Signup</string>
+    <string name="signup">Sign Up</string>
+    <string name="are_you_sure_signup">Are you sure you want to Sign Out</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
