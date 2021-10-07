@@ -134,15 +134,14 @@ public class NoteScreenActivity extends AppCompatActivity {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK)
                 saveNote();
-        }
-        else{
+        } else {
             if (resultCode == Activity.RESULT_OK) {
-                 fileUri = data.getData();
+                fileUri = data.getData();
                 isAddImage = true;
                 activity_note_screen_IMG_image.setImageURI(fileUri);
             } else if (resultCode == ImagePicker.RESULT_ERROR)
                 Toast.makeText(this, new ImagePicker().Companion.getError(data), Toast.LENGTH_SHORT).show();
-             else
+            else
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
 
@@ -188,13 +187,13 @@ public class NoteScreenActivity extends AppCompatActivity {
 
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
                 .checkLocationSettings(builder.build());
-result.addOnFailureListener(new OnFailureListener() {
-    @Override
-    public void onFailure(@NonNull Exception e) {
-        Toast.makeText(NoteScreenActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+        result.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(NoteScreenActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
 
-    }
-});
+            }
+        });
         result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
             @Override
             public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
@@ -217,7 +216,6 @@ result.addOnFailureListener(new OnFailureListener() {
                             break;
 
                         case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            //Device does not have location
                             break;
                     }
                 }
@@ -230,46 +228,52 @@ result.addOnFailureListener(new OnFailureListener() {
         LocationManager locationManager = null;
         boolean isEnabled = false;
 
-        if (locationManager == null) {
+        if (locationManager == null)
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        }
 
         isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         return isEnabled;
-
     }
 
-
     private void createNewNote() {
-        Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(),vetLocation);
-       if(isAddImage) {
-           note.setImage(true);
-           saveToFirebase(currentUser);
-           saveImage(note);
-       }
-        addNoteToUser(note);
-        Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
-        finish();
-        startActivity(new Intent(this, MainScreenActivity.class));
+        if (checkFields(activity_note_screen_EDT_title) && checkFields(activity_note_screen_EDT_body)) {
+            Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(), vetLocation);
+            if (isAddImage) {
+                note.setImage(true);
+                saveToFirebase(currentUser);
+                saveImage(note);
+            }
+            addNoteToUser(note);
+            Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
+            finish();
+            startActivity(new Intent(this, MainScreenActivity.class));
 
+        }
+    }
+
+    private boolean checkFields(EditText editTextToCheck) {
+        if (editTextToCheck.getText().toString().equals("")) {
+            editTextToCheck.setError(getText(R.string.editTextError));
+            return false;
+        }
+        return true;
     }
 
     private void saveImage(Note note) {
 
         mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
-                note.setImage(true);
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
+                        note.setImage(true);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
         });
     }
 
@@ -280,7 +284,6 @@ result.addOnFailureListener(new OnFailureListener() {
 
     protected void saveToFirebase(User userToSave) {
         myRef.child(userToSave.getUid()).setValue(userToSave);
-
     }
 
     private void findViews() {
@@ -300,6 +303,7 @@ result.addOnFailureListener(new OnFailureListener() {
         currentUser = gson.fromJson(data, User.class);
         return currentUser;
     }
+
     protected Note getNoteFromMSP() {
         Gson gson = new Gson();
         String data = msp.getString(getString(R.string.noteKey), "NA");
@@ -312,7 +316,6 @@ result.addOnFailureListener(new OnFailureListener() {
                 .with(this)
                 .crop()
                 .cropOval()
-                .cropSquare()
                 .compress(1024)
                 .maxResultSize(1080, 1080)
                 .start();

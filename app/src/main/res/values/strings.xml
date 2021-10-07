@@ -13,4 +13,5 @@
     <string name="mapMode">Map Mode</string>
     <string name="editNote">Edit Note</string>
     <string name="noteKey">note</string>
+    <string name="editTextError">Can\'t be null</string>
 </resources>

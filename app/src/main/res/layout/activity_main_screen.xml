@@ -11,6 +11,7 @@
     android:id="@+id/activity_main_BTN_logout"
     android:layout_alignParentRight="true"
     android:layout_alignParentTop="true"
+    android:layout_margin="10dp"
     android:background="@drawable/outline_logout_black_48">
 </Button>
     <TextView

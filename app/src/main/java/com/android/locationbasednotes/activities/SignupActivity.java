@@ -50,9 +50,17 @@ public class SignupActivity extends AppCompatActivity  {
         signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
+                if(checkFields(signUp_EDT_email)&&checkFields(signUp_EDT_password))
+                  register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
             }
         });
+    }
+    private boolean checkFields(EditText editTextToCheck) {
+        if (editTextToCheck.getText().toString().equals("")) {
+            editTextToCheck.setError(getText(R.string.editTextError));
+            return false;
+        }
+        return true;
     }
 
     private void register(String email, String password) {
