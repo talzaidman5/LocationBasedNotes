@@ -63,7 +63,7 @@ public class LoginActivity extends SignupActivity {
         linearLayout.addView(isLoginAuthButton);
         linearLayout.addView(isLoginAuthText);
         signUp_LIY_layout.addView(linearLayout);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         if(currentUser!=null)
             if(currentUser.isLoginAuth())

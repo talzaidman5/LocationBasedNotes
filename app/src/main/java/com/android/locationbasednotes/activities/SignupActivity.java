@@ -86,7 +86,8 @@ public class SignupActivity extends AppCompatActivity  {
     protected User getFromMSP() {
         Gson gson = new Gson();
         String data = msp.getString(getString(R.string.UserKey), "NA");
-        currentUser = gson.fromJson(data, User.class);
+        if(!data.equals("NA"))
+            currentUser = gson.fromJson(data, User.class);
         return currentUser;
     }
 
