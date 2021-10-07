@@ -55,8 +55,7 @@ public class MapModeFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(new MarkerOptions().position(latLng).title(note.getTitle()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                mMap.setOnMarkerClickListener(
-                        new GoogleMap.OnMarkerClickListener() {
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                             @Override
                             public boolean onMarkerClick(Marker marker) {
                                 putOnMSP(note);

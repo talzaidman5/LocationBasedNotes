@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.android.locationbasednotes.utils.MySheredP;
 
 public class EditNoteActivity extends NoteScreenActivity {
-    private MySheredP msp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -83,6 +83,9 @@ public class User {
     }
 
     public void deleteNote(Note currentNote) {
-        noteList.remove(currentNote);
+        for (Note note : noteList) {
+            if (note.getID().equals(currentNote.getID()))
+                noteList.remove(note);
+        }
     }
 }
