@@ -13,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.locationbasednotes.R;
-import com.android.locationbasednotes.activities.MainScreenActivity;
-import com.android.locationbasednotes.activities.SignupActivity;
 import com.android.locationbasednotes.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +56,7 @@ public class LoginActivity extends SignupActivity {
         isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
 
         isLoginAuthButton.setOnClickListener(v -> {
-            AuthLoginButtonClick(isLoginAuthButton);
+            authLoginButtonClick(isLoginAuthButton);
         });
         linearLayout.addView(isLoginAuthButton);
         linearLayout.addView(isLoginAuthText);
@@ -73,7 +71,7 @@ public class LoginActivity extends SignupActivity {
 
     }
 
-    private void AuthLoginButtonClick(Button isLoginAuthButton) {
+    private void authLoginButtonClick(Button isLoginAuthButton) {
         isLoginAuth=!isLoginAuth;
         if(isLoginAuth)
             isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_check_circle_outline_black_24));
@@ -89,10 +87,6 @@ public class LoginActivity extends SignupActivity {
                         if (task.isSuccessful()) {
                             user = auth.getCurrentUser();
                             getFromFirebase();
-                            if(isLoginAuth!=currentUser.isLoginAuth()) {
-                                currentUser.setLoginAuth(isLoginAuth);
-                                SaveToFirebase(currentUser);
-                            }
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }
@@ -107,7 +101,7 @@ public class LoginActivity extends SignupActivity {
                 putOnMSP(currentUser);
                 if (isLoginAuth){
                     currentUser.setLoginAuth(isLoginAuth);
-                    SaveToFirebase(currentUser);
+                    saveToFirebase(currentUser);
                 }
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));

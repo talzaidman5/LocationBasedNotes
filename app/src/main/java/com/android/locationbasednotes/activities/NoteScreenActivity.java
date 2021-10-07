@@ -75,8 +75,8 @@ public class NoteScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_screen);
         getSupportActionBar().hide();
 
-        InitData();
-        FindViews();
+        initData();
+        findViews();
         getUserFromMSP();
 
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void InitData() {
+    private void initData() {
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -168,7 +168,7 @@ public class NoteScreenActivity extends AppCompatActivity {
                                         vetLocation = new ArrayList<>();
                                         vetLocation.add(locationResult.getLocations().get(index).getLatitude());
                                         vetLocation.add(locationResult.getLocations().get(index).getLongitude());
-                                        CreateNewNote();
+                                        createNewNote();
 
                                     }
                                 }
@@ -240,21 +240,21 @@ result.addOnFailureListener(new OnFailureListener() {
     }
 
 
-    private void CreateNewNote() {
+    private void createNewNote() {
         Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(),vetLocation);
        if(isAddImage) {
            note.setImage(true);
-           SaveToFirebase(currentUser);
-           SaveImage(note);
+           saveToFirebase(currentUser);
+           saveImage(note);
        }
-        AddNoteToUser(note);
+        addNoteToUser(note);
         Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
         finish();
         startActivity(new Intent(this, MainScreenActivity.class));
 
     }
 
-    private void SaveImage(Note note) {
+    private void saveImage(Note note) {
 
         mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -273,17 +273,17 @@ result.addOnFailureListener(new OnFailureListener() {
         });
     }
 
-    private void AddNoteToUser(Note note) {
+    private void addNoteToUser(Note note) {
         currentUser.addToNoteList(note);
-        SaveToFirebase(currentUser);
+        saveToFirebase(currentUser);
     }
 
-    protected void SaveToFirebase(User userToSave) {
+    protected void saveToFirebase(User userToSave) {
         myRef.child(userToSave.getUid()).setValue(userToSave);
 
     }
 
-    private void FindViews() {
+    private void findViews() {
 
         activity_note_screen_BTN_delete = findViewById(R.id.activity_note_screen_BTN_delete);
         activity_note_screen_BTN_save = findViewById(R.id.activity_note_screen_BTN_save);

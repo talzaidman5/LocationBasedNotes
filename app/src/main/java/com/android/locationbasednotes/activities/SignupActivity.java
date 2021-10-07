@@ -40,7 +40,7 @@ public class SignupActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        FindViews();
+        findViews();
         getSupportActionBar().hide();
 
         myRef= database.getReference(getString(R.string.AllUsersFirebase));
@@ -64,7 +64,7 @@ public class SignupActivity extends AppCompatActivity  {
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         assert firebaseUser != null;
                         User user = new User(email, password, firebaseUser.getUid());
-                        SaveToFirebase(user);
+                        saveToFirebase(user);
                         putOnMSP(user);
                         finish();
                         startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
@@ -76,7 +76,7 @@ public class SignupActivity extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), getString(R.string.emptyFields), Toast.LENGTH_SHORT).show();
     }
 
-    protected void SaveToFirebase(User userToSave) {
+    protected void saveToFirebase(User userToSave) {
         myRef.child(userToSave.getUid()).setValue(userToSave);
     }
     protected void putOnMSP(User userToSave) {
@@ -91,7 +91,7 @@ public class SignupActivity extends AppCompatActivity  {
         return currentUser;
     }
 
-    private void FindViews() {
+    private void findViews() {
         signUp_BTN_signUp =  findViewById(R.id.signUp_BTN_signUp);
         signUp_EDT_email =  findViewById(R.id.signUp_EDT_email);
         signUp_EDT_password =  findViewById(R.id.signUp_EDT_password);

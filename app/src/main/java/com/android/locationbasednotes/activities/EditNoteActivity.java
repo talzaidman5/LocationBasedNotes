@@ -10,7 +10,6 @@ import com.android.locationbasednotes.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 public class EditNoteActivity extends NoteScreenActivity {
 
@@ -24,7 +23,7 @@ public class EditNoteActivity extends NoteScreenActivity {
 
        currentNote = getNoteFromMSP();
        currentUser = getUserFromMSP();
-       UpdateNote();
+       updateNote();
        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -33,7 +32,7 @@ public class EditNoteActivity extends NoteScreenActivity {
 
                currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getText().toString());
                currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getText().toString());
-               SaveToFirebase(currentUser);
+               saveToFirebase(currentUser);
                Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
 
            }
@@ -41,13 +40,13 @@ public class EditNoteActivity extends NoteScreenActivity {
         activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    DeleteNote();
+                    deleteNote();
             }
         });
 
     }
 
-    private void DeleteNote() {
+    private void deleteNote() {
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -58,10 +57,10 @@ public class EditNoteActivity extends NoteScreenActivity {
             }
         });
         currentUser.deleteNote(currentNote);
-        SaveToFirebase(currentUser);
+        saveToFirebase(currentUser);
     }
 
-    private void UpdateNote() {
+    private void updateNote() {
         activity_note_screen_EDT_title.setText(currentNote.getTitle());
         activity_note_screen_EDT_body.setText(currentNote.getBody());
 

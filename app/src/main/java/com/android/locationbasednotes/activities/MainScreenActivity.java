@@ -35,11 +35,11 @@ public class MainScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        FindViews();
+        findViews();
         getSupportActionBar().hide();
 
         showDefaultFragment();
-        InitData();
+        initData();
 
         getFromMSP();
 
@@ -69,7 +69,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
     }
 
-    private void InitData() {
+    private void initData() {
         msp = new MySheredP(this);
         mAuth = FirebaseAuth.getInstance();
     }
@@ -81,7 +81,7 @@ public class MainScreenActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void FindViews() {
+    private void findViews() {
         activity_main_BTN_createNewNote = findViewById(R.id.activity_main_BTN_createNewNote);
         activity_main_BTN_logout = findViewById(R.id.activity_main_BTN_logout);
         activity_main_NGV_navigationMenu = findViewById(R.id.activity_main_NGV_navigationMenu);

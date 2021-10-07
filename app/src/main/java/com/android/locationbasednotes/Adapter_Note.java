@@ -77,7 +77,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
        ViewHolder_Normal mHolder = (ViewHolder_Normal) holder;
         if(currentNote.isImage())
-            DownloadImage(mHolder);
+            downloadImage(mHolder);
         else
             mHolder.note_IMG_image.setBackgroundColor(Color.GRAY);
 
@@ -90,15 +90,13 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             public void onClick(View v) {
                 Log.d("noteID","EDIT "+currentNote.getID());
 
-                EditNote();
+                editNote();
             }
         });
 
     }
-    public interface OnEditNoteListener{
-        void onNoteClick(int position);
-    }
-    private void DownloadImage(ViewHolder_Normal mHolder) {
+
+    private void downloadImage(ViewHolder_Normal mHolder) {
         getUserFromMSP();
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
                 addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -125,7 +123,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    private void EditNote() {
+    private void editNote() {
         saveNoteInMSF();
         context.startActivity(new Intent(context, EditNoteActivity.class));
 
