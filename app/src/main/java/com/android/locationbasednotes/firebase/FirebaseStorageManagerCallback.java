@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.firebase;
 
 import android.net.Uri;
 

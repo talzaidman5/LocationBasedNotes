@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 
-import com.android.locationbasednotes.FirebaseManager;
+import com.android.locationbasednotes.firebase.FirebaseManager;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;

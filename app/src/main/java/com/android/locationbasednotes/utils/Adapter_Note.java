@@ -13,8 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.locationbasednotes.FirebaseManager;
-import com.android.locationbasednotes.FirebaseStorageManagerCallback;
+import com.android.locationbasednotes.firebase.FirebaseManager;
+import com.android.locationbasednotes.firebase.FirebaseStorageManagerCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
 import com.android.locationbasednotes.data.Note;

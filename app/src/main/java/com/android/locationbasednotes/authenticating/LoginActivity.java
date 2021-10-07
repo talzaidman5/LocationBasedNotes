@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.locationbasednotes.FirebaseManager;
-import com.android.locationbasednotes.FirebaseManagerCallback;
+import com.android.locationbasednotes.firebase.FirebaseManager;
+import com.android.locationbasednotes.firebase.FirebaseManagerCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.User;

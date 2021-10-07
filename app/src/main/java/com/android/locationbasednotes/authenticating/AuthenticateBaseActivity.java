@@ -12,14 +12,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.locationbasednotes.FirebaseManager;
+import com.android.locationbasednotes.firebase.FirebaseManager;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 public class AuthenticateBaseActivity extends AppCompatActivity  {

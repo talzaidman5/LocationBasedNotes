@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.locationbasednotes.FirebaseManager;
-import com.android.locationbasednotes.FirebaseManagerCallback;
+import com.android.locationbasednotes.firebase.FirebaseManager;
+import com.android.locationbasednotes.firebase.FirebaseManagerCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;

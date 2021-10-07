@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
-import com.android.locationbasednotes.FirebaseStorageManagerCallback;
+import com.android.locationbasednotes.firebase.FirebaseStorageManagerCallback;
 import com.android.locationbasednotes.R;
 import com.bumptech.glide.Glide;
 
