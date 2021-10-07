@@ -1,11 +1,10 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.locationbasednotes.utils.MySheredP;
+import com.android.locationbasednotes.R;
 
 public class EditNoteActivity extends NoteScreenActivity {
 

@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    tools:context=".NoteScreenActivity">
+    tools:context=".activities.NoteScreenActivity">
     <TextView
         android:id="@+id/activity_note_screen_TXT_title"
         android:layout_width="match_parent"

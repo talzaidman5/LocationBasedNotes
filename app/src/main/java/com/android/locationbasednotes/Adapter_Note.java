@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.locationbasednotes.activities.EditNoteActivity;
+import com.android.locationbasednotes.data.Note;
+import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +29,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

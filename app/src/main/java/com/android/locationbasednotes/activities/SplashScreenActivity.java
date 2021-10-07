@@ -1,12 +1,13 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
 import com.google.firebase.auth.FirebaseAuth;

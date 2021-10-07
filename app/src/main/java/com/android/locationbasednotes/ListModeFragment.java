@@ -3,7 +3,6 @@ package com.android.locationbasednotes;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
 

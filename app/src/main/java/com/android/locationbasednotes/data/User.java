@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.data;
 
 import com.google.gson.Gson;
 

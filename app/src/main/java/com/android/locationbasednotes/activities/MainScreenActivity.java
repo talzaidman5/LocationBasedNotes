@@ -1,31 +1,26 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.locationbasednotes.ListModeFragment;
+import com.android.locationbasednotes.MapModeFragment;
+import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
 
 public class MainScreenActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;

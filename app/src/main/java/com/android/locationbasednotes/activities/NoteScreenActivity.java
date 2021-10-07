@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,6 +7,9 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 
+import com.android.locationbasednotes.data.Note;
+import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.data.User;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -21,7 +24,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

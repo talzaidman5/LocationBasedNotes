@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.android.locationbasednotes.R;
 
 public class MainActivity extends AppCompatActivity {
     private Button main_activity_BTN_login,main_activity_BTN_signup;

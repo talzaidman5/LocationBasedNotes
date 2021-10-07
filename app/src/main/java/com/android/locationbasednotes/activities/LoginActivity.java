@@ -1,9 +1,8 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.activities.MainScreenActivity;
+import com.android.locationbasednotes.activities.SignupActivity;
+import com.android.locationbasednotes.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-public class LoginActivity extends  SignupActivity {
+public class LoginActivity extends SignupActivity {
     private FirebaseUser user;
     private boolean isLoginAuth= false;
     private User currentUser;

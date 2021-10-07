@@ -17,13 +17,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".EditNoteActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".NoteScreenActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".MainScreenActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".activities.EditNoteActivity" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.NoteScreenActivity" />
+        <activity android:name=".activities.SignupActivity" />
+        <activity android:name=".activities.MainScreenActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

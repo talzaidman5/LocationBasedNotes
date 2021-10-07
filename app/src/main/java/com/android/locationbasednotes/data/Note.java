@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.data;
 
 import android.location.Location;
 import android.net.Uri;
