@@ -82,7 +82,8 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNote();
+                if (checkFields(activity_note_screen_EDT_title) && checkFields(activity_note_screen_EDT_body))
+                    saveNote();
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
@@ -236,7 +237,6 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     private void createNewNote() {
-        if (checkFields(activity_note_screen_EDT_title) && checkFields(activity_note_screen_EDT_body)) {
             Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(), vetLocation);
             if (isAddImage) {
                 note.setImage(true);
@@ -247,8 +247,6 @@ public class NoteScreenActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
             finish();
             startActivity(new Intent(this, MainScreenActivity.class));
-
-        }
     }
 
     private boolean checkFields(EditText editTextToCheck) {
