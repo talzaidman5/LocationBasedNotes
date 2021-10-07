@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+
         main_activity_BTN_login =  findViewById(R.id.main_activity_BTN_login);
         main_activity_BTN_signup =  findViewById(R.id.main_activity_BTN_signup);
         main_activity_BTN_login.setOnClickListener(new View.OnClickListener() {

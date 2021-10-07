@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListModeFragment">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/activity_main_NGV_navigationMenu"
+        android:layout_below="@+id/activity_main_BTN_createNewNote">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:id="@+id/activity_main_LTN_allNotes">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_main_LST_notes"
+                android:layout_width="300dp"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</FrameLayout>

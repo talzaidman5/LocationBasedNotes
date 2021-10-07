@@ -54,6 +54,7 @@ public class LoginActivity extends  SignupActivity {
         isLoginAuthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
         isLoginAuthButton.setId(R.id.signUp_BTN_loginAuth);
+        isLoginAuthButton.setGravity(Gravity.START);
         isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
 
         isLoginAuthButton.setOnClickListener(v -> {

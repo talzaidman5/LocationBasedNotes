@@ -2,8 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
     tools:context=".NoteScreenActivity">
     <TextView
@@ -40,23 +40,41 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/activity_note_screen_EDT_title"
         android:textStyle="bold" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_note_screen_EDT_body"
+        android:layout_centerInParent="true"
+        android:id="@+id/activity_note_screen_IMG_image"></ImageView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Image"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/activity_note_screen_IMG_image"
+        android:id="@+id/activity_note_screen_BTN_uploadImage"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginTop="30dp"
-    android:layout_below="@id/activity_note_screen_EDT_body">
-    <Button
+        android:layout_below="@id/activity_note_screen_BTN_uploadImage">
+
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
         android:text="delete"
+        android:layout_margin="5dp"
         android:id="@+id/activity_note_screen_BTN_delete"/>
+
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:text="save"
+            android:layout_margin="5dp"
             android:id="@+id/activity_note_screen_BTN_save"/>
 
     </LinearLayout>

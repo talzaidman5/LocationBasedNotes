@@ -38,6 +38,7 @@ public class SignupActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         FindViews();
+        getSupportActionBar().hide();
 
         myRef= database.getReference(getString(R.string.AllUsersFirebase));
         auth = FirebaseAuth.getInstance();

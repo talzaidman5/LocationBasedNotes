@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:elevation="5dp"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="12dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/note_IMG_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_white"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/note_BTN_edit"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/outline_edit_black_24"
+                android:ellipsize="end"/>
+            <TextView
+                android:id="@+id/note_LBL_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:gravity="left|center"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:minLines="2"
+                android:maxLines="2"
+                android:text="DATE"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/note_LBL_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:gravity="left|center"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:background="@color/light_white"
+                android:minLines="1"
+                android:maxLines="1"
+                android:text="TITLE"/>
+
+            <TextView
+                android:id="@+id/note_LBL_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:gravity="left|center"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:background="@color/light_white"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="Body"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

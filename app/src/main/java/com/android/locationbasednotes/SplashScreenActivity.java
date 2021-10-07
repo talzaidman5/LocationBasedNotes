@@ -30,6 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        getSupportActionBar().hide();
 
         InitData();
 
@@ -71,7 +72,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("ffff","fff");
+
             }
         });
     }

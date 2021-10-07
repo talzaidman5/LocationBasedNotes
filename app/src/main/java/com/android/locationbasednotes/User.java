@@ -19,9 +19,12 @@ public class User {
         this.noteList = new ArrayList<>();
         this.Uid = uid;
          this.loginAuth = false;
+
     }
     public User(){}
     public User(String userString) {createUserFromString(userString); }
+
+
 
     private  User createUserFromString(String data) {
         return new Gson().fromJson(data, User.class);
@@ -70,5 +73,16 @@ public class User {
         if(this.noteList == null)
             this.noteList = new ArrayList<>();
         this.noteList.add(note);
+    }
+    public  Note getNote(String ID){
+        for (Note note: this.getNoteList()) {
+            if(note.getID().equals(ID))
+                return note;
+        }
+        return null;
+    }
+
+    public void deleteNote(Note currentNote) {
+        noteList.remove(currentNote);
     }
 }
