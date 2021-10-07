@@ -3,6 +3,7 @@ package com.android.locationbasednotes.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +38,7 @@ public class EditNoteActivity extends NoteScreenActivity {
             public void onClick(View v) {
                 updateDataActivity(false,activity_note_screen_EDT_title.getEditText().getText().toString(),
                         activity_note_screen_EDT_body.getEditText().getText().toString());
-                saveToFirebase(currentUser);
+                firebaseManager.writeToFirebase(currentUser);
                 Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
             }
         });
@@ -54,7 +55,7 @@ public class EditNoteActivity extends NoteScreenActivity {
             public void onClick(View v) {
                 if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
                     saveNewData();
-                    saveToFirebase(currentUser);
+                    firebaseManager.writeToFirebase(currentUser);
                     finish();
                     startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
                 }
@@ -90,7 +91,7 @@ public class EditNoteActivity extends NoteScreenActivity {
             }
         });
         currentUser.deleteNote(currentNote);
-        saveToFirebase(currentUser);
+        firebaseManager.writeToFirebase(currentUser);
     }
 
     private void setNoteData() {
@@ -100,24 +101,23 @@ public class EditNoteActivity extends NoteScreenActivity {
         activity_note_screen_EDT_body.getEditText().setText(currentNote.getBody());
         activity_note_screen_EDT_title.getEditText().setText(currentNote.getTitle());
         if (currentNote.isImage())
-            downloadImage(activity_note_screen_IMG_image);
+            downloadImage();
         else
             activity_note_screen_IMG_image.setVisibility(View.INVISIBLE);
 
     }
 
-    private void downloadImage(ImageView activity_note_screen_IMG_image) {
+    private void downloadImage() {
         getUserFromMSP();
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
                 addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        isAddImage = true;
                         Glide
                                 .with(getApplicationContext())
                                 .load(uri)
                                 .into(activity_note_screen_IMG_image);
-
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

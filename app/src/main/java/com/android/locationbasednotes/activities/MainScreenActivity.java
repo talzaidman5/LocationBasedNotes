@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -112,11 +111,7 @@ public class MainScreenActivity extends AppCompatActivity {
         activity_main_TXT_noNotes = findViewById(R.id.activity_main_TXT_noNotes);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        // Your code here
-        return super.dispatchTouchEvent(ev);
-    }
+
     private void getFromMSP() {
         Gson gson = new Gson();
         String data = msp.getString(getString(R.string.UserKey), "NA");

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.locationbasednotes.FirebaseManager;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
@@ -33,12 +34,14 @@ public class AuthenticateBaseActivity extends AppCompatActivity  {
     protected LinearLayout authenticate_base_LIY_layout;
     protected User currentUser;
     protected ProgressBar authenticate_base_PRB_progressBar;
+    protected FirebaseManager firebaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate_base_activity);
         findViews();
+        firebaseManager = FirebaseManager.GetInstance();
         getSupportActionBar().hide();
         authenticate_base_PRB_progressBar.setVisibility(View.INVISIBLE);
         myRef= database.getReference(getString(R.string.AllUsersFirebase));
@@ -59,10 +62,6 @@ public class AuthenticateBaseActivity extends AppCompatActivity  {
         return true;
     }
 
-
-    protected void saveToFirebase(User userToSave) {
-        myRef.child(userToSave.getUid()).setValue(userToSave);
-    }
     protected void putOnMSP(User userToSave) {
         String user = gson.toJson(userToSave);
         msp.putString(getString(R.string.UserKey), user);

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.locationbasednotes.FirebaseManager;
+import com.android.locationbasednotes.FirebaseManagerCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.User;
@@ -19,9 +21,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AuthenticateBaseActivity {
     private FirebaseUser firebaseUser;
@@ -34,6 +33,7 @@ public class LoginActivity extends AuthenticateBaseActivity {
 
         currentUser = getUserFromMSP();
         changeFieldsToLogin();
+        firebaseManager = FirebaseManager.GetInstance();
 
         authenticate_base_BTN_do_action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public class LoginActivity extends AuthenticateBaseActivity {
                             getFromFirebase();
                             if (currentUser.isLoginAuth() != isLoginAuth)
                                 currentUser.setLoginAuth(isLoginAuth);
-                            saveToFirebase(currentUser);
+                            firebaseManager.writeToFirebase(currentUser);
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }
@@ -92,22 +92,19 @@ public class LoginActivity extends AuthenticateBaseActivity {
     }
 
     private void getFromFirebase() {
-        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+
+        firebaseManager.readFromFirebase(firebaseUser, this, new FirebaseManagerCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
+            public void OnUserFetched(User user) {
                 putOnMSP(currentUser);
                 if (isLoginAuth){
                     currentUser.setLoginAuth(isLoginAuth);
-                    saveToFirebase(currentUser);
+                    firebaseManager.writeToFirebase(currentUser);
                 }
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
         });
+
     }
 }

@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+
+import com.android.locationbasednotes.FirebaseManager;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
@@ -22,9 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,10 +67,11 @@ public class NoteScreenActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private List<Double> vetLocation = new ArrayList<>();
     protected ImageView activity_note_screen_IMG_image;
-    private boolean isAddImage = false;
+    protected boolean isAddImage = false;
     private Uri fileUri;
     protected StorageReference mStorageRef;
     private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
+    protected FirebaseManager firebaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class NoteScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText()))
                     activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
-                    saveNote();
+                    getLocationAndCreateNote();
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
@@ -100,9 +101,9 @@ public class NoteScreenActivity extends AppCompatActivity {
         locationRequest.setInterval(INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        firebaseManager = FirebaseManager.GetInstance();
 
         msp = new MySheredP(this);
-        myRef = database.getReference(getString(R.string.AllUsersFirebase));
     }
 
     @Override
@@ -111,7 +112,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isGPSEnabled())
-                    saveNote();
+                    getLocationAndCreateNote();
                 else
                     turnOnGPS();
             }
@@ -124,7 +125,7 @@ public class NoteScreenActivity extends AppCompatActivity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK)
-                saveNote();
+                getLocationAndCreateNote();
         } else {
             if (resultCode == Activity.RESULT_OK) {
                 fileUri = data.getData();
@@ -142,7 +143,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
 
-    private void saveNote() {
+    private void getLocationAndCreateNote() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(NoteScreenActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (isGPSEnabled()) {
@@ -231,7 +232,6 @@ public class NoteScreenActivity extends AppCompatActivity {
         Note note = new Note(activity_note_screen_EDT_title.getEditText().getText().toString(), activity_note_screen_EDT_body.getEditText().getText().toString(), vetLocation);
         if (isAddImage) {
             note.setImage(true);
-            saveToFirebase(currentUser);
             saveImage(note);
         }
         addNoteToUser(note);
@@ -267,12 +267,10 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
     private void addNoteToUser(Note note) {
         currentUser.addToNoteList(note);
-        saveToFirebase(currentUser);
+        firebaseManager.writeToFirebase(currentUser);
     }
 
-    protected void saveToFirebase(User userToSave) {
-        myRef.child(userToSave.getUid()).setValue(userToSave);
-    }
+
 
     private void findViews() {
         activity_note_screen_BTN_delete = findViewById(R.id.activity_note_screen_BTN_delete);

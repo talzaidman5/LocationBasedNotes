@@ -58,7 +58,7 @@ public class SignupActivity extends AuthenticateBaseActivity  {
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         assert firebaseUser != null;
                         User user = new User(email, password, firebaseUser.getUid());
-                        saveToFirebase(user);
+                        firebaseManager.writeToFirebase(user);
                         putOnMSP(user);
                         finish();
                         startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
