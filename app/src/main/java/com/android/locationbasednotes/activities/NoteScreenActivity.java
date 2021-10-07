@@ -125,7 +125,6 @@ public class NoteScreenActivity extends AppCompatActivity {
                         .with(getApplicationContext())
                         .load(fileUri)
                         .into(activity_note_screen_IMG_image);
-
                 isAddImage = true;
             } else if (resultCode == ImagePicker.RESULT_ERROR)
                 Toast.makeText(this, new ImagePicker().Companion.getError(data), Toast.LENGTH_SHORT).show();

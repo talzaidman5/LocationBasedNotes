@@ -27,8 +27,6 @@ public class AuthenticateBaseActivity extends AppCompatActivity  {
     protected TextInputLayout authenticate_base_EDT_email, authenticate_base_EDT_password;
     protected FirebaseAuth auth;
     protected TextView authenticate_base_TXT_title;
-    protected FirebaseDatabase database = FirebaseDatabase.getInstance();
-    protected DatabaseReference myRef;
     protected Gson gson = new Gson();
     protected MySheredP msp;
     protected LinearLayout authenticate_base_LIY_layout;
@@ -44,7 +42,6 @@ public class AuthenticateBaseActivity extends AppCompatActivity  {
         firebaseManager = FirebaseManager.GetInstance();
         getSupportActionBar().hide();
         authenticate_base_PRB_progressBar.setVisibility(View.INVISIBLE);
-        myRef= database.getReference(getString(R.string.AllUsersFirebase));
         auth = FirebaseAuth.getInstance();
         msp = new MySheredP(this);
     }

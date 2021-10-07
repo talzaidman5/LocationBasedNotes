@@ -13,7 +13,7 @@ import com.android.locationbasednotes.R;
 import com.bumptech.glide.Glide;
 
 public class EditNoteActivity extends NoteScreenActivity {
-
+    private Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,9 @@ public class EditNoteActivity extends NoteScreenActivity {
                     firebaseManager.writeToFirebase(currentUser);
                     finish();
                     startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                    if(                isAddImage ) {
+                        firebaseManager.saveImageInStorage(currentNote,uri);
+                    }
                 }
             }
         });
@@ -99,7 +102,6 @@ public class EditNoteActivity extends NoteScreenActivity {
                         .with(getApplicationContext())
                         .load(uri)
                         .into(activity_note_screen_IMG_image);
-
             }
         });
     }
@@ -107,10 +109,12 @@ public class EditNoteActivity extends NoteScreenActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        activity_note_screen_IMG_image.setVisibility(View.VISIBLE);
         Glide
                 .with(getApplicationContext())
                 .load(data.getData())
                 .into(activity_note_screen_IMG_image);
+        uri = data.getData();
     }
 
     @Override

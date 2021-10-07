@@ -25,7 +25,6 @@ public class SignupActivity extends AuthenticateBaseActivity  {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        myRef= database.getReference(getString(R.string.AllUsersFirebase));
         auth = FirebaseAuth.getInstance();
         msp = new MySheredP(this);
         changeFieldsToLogin();

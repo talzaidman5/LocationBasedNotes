@@ -6,12 +6,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.android.locationbasednotes.activities.MainActivity;
-import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
-import com.android.locationbasednotes.utils.MySheredP;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
 
 public class FirebaseManager { // Singleton object
 
@@ -37,10 +32,12 @@ public class FirebaseManager { // Singleton object
     private Context context;
     private final String FIREBASE_REFERENCE = "AllUsers";
     protected StorageReference mStorageRef;
+    private FirebaseAuth mAuth;
 
     private FirebaseManager(){
         myRef = database.getReference(FIREBASE_REFERENCE);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -111,8 +108,9 @@ public void downloadImageFromStorage(Note currentNote, FirebaseStorageManagerCal
 
         }
     });
-
-
+}
+public FirebaseUser getCurrentUserAuth() {
+    return mAuth.getCurrentUser();
 }
 
 

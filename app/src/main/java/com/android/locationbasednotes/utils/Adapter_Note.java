@@ -19,14 +19,7 @@ import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
-import com.android.locationbasednotes.utils.MySheredP;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
