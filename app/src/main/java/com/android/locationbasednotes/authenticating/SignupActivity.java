@@ -1,4 +1,4 @@
-package com.android.locationbasednotes.activities;
+package com.android.locationbasednotes.authenticating;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
-public class SignupActivity extends AppCompatActivity  {
+public class SignupActivity extends AuthenticateBaseActivity  {
     protected Button signUp_BTN_signUp;
     protected EditText signUp_EDT_email,signUp_EDT_password;
     protected FirebaseAuth auth;

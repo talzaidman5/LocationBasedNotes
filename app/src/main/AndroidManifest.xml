@@ -20,9 +20,9 @@
         <activity android:name=".activities.EditNoteActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.NoteScreenActivity" />
-        <activity android:name=".activities.SignupActivity" />
+        <activity android:name=".authenticating.SignupActivity" />
         <activity android:name=".activities.MainScreenActivity" />
-        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".authenticating.LoginActivity" />
         <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

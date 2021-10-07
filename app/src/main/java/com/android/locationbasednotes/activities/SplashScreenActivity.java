@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.authenticating.LoginActivity;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
@@ -38,7 +39,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (currentUserFB != null) {
             ReadFromFirebase();
 
-
         } else {
             finish();
             startActivity(new Intent(this, MainActivity.class));
@@ -50,25 +50,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserFB = mAuth.getCurrentUser();
         myRef = database.getReference(getString(R.string.AllUsersFirebase));
-
     }
 
     private void ReadFromFirebase() {
-
         myRef.child(currentUserFB.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
-                if (currentUser.isLoginAuth()) {
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-                }
-                else
-                {
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                }
                 putOnMSP();
+
+                if (currentUser.isLoginAuth())
+                    startNewActivity(MainScreenActivity.class);
+                else
+                    startNewActivity(LoginActivity.class);
             }
 
             @Override
@@ -76,6 +70,11 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void startNewActivity(Class<?> newActivity) {
+        finish();
+        startActivity(new Intent(getApplicationContext(), newActivity));
     }
 
     private void putOnMSP() {

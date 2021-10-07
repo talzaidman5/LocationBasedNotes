@@ -54,8 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteScreenActivity extends AppCompatActivity {
-    protected Button activity_note_screen_BTN_save, activity_note_screen_BTN_delete;
-    protected Button activity_note_screen_BTN_uploadImage;
+    protected Button activity_note_screen_BTN_save, activity_note_screen_BTN_delete,activity_note_screen_BTN_uploadImage;
     protected EditText activity_note_screen_EDT_title, activity_note_screen_EDT_body;
     protected TextView activity_note_screen_TXT_title;
     private MySheredP msp;
@@ -85,16 +84,15 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkFields(activity_note_screen_EDT_title) && checkFields(activity_note_screen_EDT_body))
+                if (checkField(activity_note_screen_EDT_title) && checkField(activity_note_screen_EDT_body))
                     activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
-                    saveNote();
+                saveNote();
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
     }
 
     private void initData() {
-
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
@@ -135,7 +133,6 @@ public class NoteScreenActivity extends AppCompatActivity {
             else
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
@@ -153,7 +150,6 @@ public class NoteScreenActivity extends AppCompatActivity {
                                             .removeLocationUpdates(this);
 
                                     if (locationResult != null && locationResult.getLocations().size() > 0) {
-
                                         int index = locationResult.getLocations().size() - 1;
                                         vetLocation = new ArrayList<>();
                                         vetLocation.add(locationResult.getLocations().get(index).getLatitude());
@@ -197,7 +193,6 @@ public class NoteScreenActivity extends AppCompatActivity {
 
                     switch (e.getStatusCode()) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-
                             try {
                                 ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                                 resolvableApiException.startResolutionForResult(NoteScreenActivity.this, 2);
@@ -227,19 +222,19 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     private void createNewNote() {
-            Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(), vetLocation);
-            if (isAddImage) {
-                note.setImage(true);
-                saveToFirebase(currentUser);
-                saveImage(note);
-            }
-            addNoteToUser(note);
-            Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
-            finish();
-            startActivity(new Intent(this, MainScreenActivity.class));
+        Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(), vetLocation);
+        if (isAddImage) {
+            note.setImage(true);
+            saveToFirebase(currentUser);
+            saveImage(note);
+        }
+        addNoteToUser(note);
+        Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
+        finish();
+        startActivity(new Intent(this, MainScreenActivity.class));
     }
 
-    private boolean checkFields(EditText editTextToCheck) {
+    private boolean checkField(EditText editTextToCheck) {
         if (editTextToCheck.getText().toString().equals("")) {
             editTextToCheck.setError(getText(R.string.editTextError));
             return false;
@@ -248,14 +243,12 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     protected void saveImage(Note note) {
-
         mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
                         note.setImage(true);
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -276,7 +269,6 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-
         activity_note_screen_BTN_delete = findViewById(R.id.activity_note_screen_BTN_delete);
         activity_note_screen_BTN_save = findViewById(R.id.activity_note_screen_BTN_save);
         activity_note_screen_EDT_title = findViewById(R.id.activity_note_screen_EDT_title);
@@ -312,6 +304,3 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
 }
-
-
-

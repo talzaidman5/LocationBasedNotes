@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.locationbasednotes.R;
-import com.android.locationbasednotes.activities.SignupActivity;
+import com.android.locationbasednotes.authenticating.LoginActivity;
+import com.android.locationbasednotes.authenticating.SignupActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button main_activity_BTN_login, main_activity_BTN_signup;
