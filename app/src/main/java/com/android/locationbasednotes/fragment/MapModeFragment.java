@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;

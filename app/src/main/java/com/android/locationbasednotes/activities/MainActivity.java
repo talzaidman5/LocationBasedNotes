@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.locationbasednotes.R;
+import com.android.locationbasednotes.activities.SignupActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button main_activity_BTN_login,main_activity_BTN_signup;
+    private Button main_activity_BTN_login, main_activity_BTN_signup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,20 +19,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        main_activity_BTN_login =  findViewById(R.id.main_activity_BTN_login);
-        main_activity_BTN_signup =  findViewById(R.id.main_activity_BTN_signup);
+        findViews();
         main_activity_BTN_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
-        main_activity_BTN_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+                startNewActivity(LoginActivity.class);
             }
         });
 
+        main_activity_BTN_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNewActivity(SignupActivity.class);
+            }
+        });
+
+    }
+
+    private void startNewActivity(Class<?> newActivity) {
+        startActivity(new Intent(getApplicationContext(), newActivity));
+    }
+
+
+    private void findViews() {
+        main_activity_BTN_login = findViewById(R.id.main_activity_BTN_login);
+        main_activity_BTN_signup = findViewById(R.id.main_activity_BTN_signup);
     }
 }

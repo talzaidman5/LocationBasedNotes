@@ -50,12 +50,12 @@ public class SignupActivity extends AppCompatActivity  {
         signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkFields(signUp_EDT_email)&&checkFields(signUp_EDT_password))
+                if(checkField(signUp_EDT_email) && checkField(signUp_EDT_password))
                   register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
             }
         });
     }
-    protected boolean checkFields(EditText editTextToCheck) {
+    protected boolean checkField(EditText editTextToCheck) {
         if (editTextToCheck.getText().toString().equals("")) {
             editTextToCheck.setError(getText(R.string.editTextError));
             return false;
@@ -91,7 +91,7 @@ public class SignupActivity extends AppCompatActivity  {
         String user = gson.toJson(userToSave);
         msp.putString(getString(R.string.UserKey), user);
     }
-    protected User getFromMSP() {
+    protected User getUserFromMSP() {
         Gson gson = new Gson();
         String data = msp.getString(getString(R.string.UserKey), "NA");
         if(!data.equals("NA"))

@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.locationbasednotes.ListModeFragment;
-import com.android.locationbasednotes.MapModeFragment;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.fragment.ListModeFragment;
+import com.android.locationbasednotes.fragment.MapModeFragment;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,21 +40,14 @@ public class MainScreenActivity extends AppCompatActivity {
 
         showDefaultFragment();
         initData();
-
         getFromMSP();
+        handleEmptyNotesList();
 
-        if (currentUser.getNoteList() != null)
-            activity_main_TXT_noNotes.setVisibility(View.INVISIBLE);
-        else
-        {
-            activity_main_TXT_noNotes.setText("No Notes");
-            activity_main_TXT_noNotes.setVisibility(View.VISIBLE);
-        }
-            activity_main_NGV_navigationMenu.setOnNavigationItemSelectedListener(navListener);
+        activity_main_NGV_navigationMenu.setOnNavigationItemSelectedListener(navListener);
         activity_main_BTN_createNewNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), NoteScreenActivity.class));
+                startNewActivity(NoteScreenActivity.class);
             }
         });
 
@@ -62,12 +55,24 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
+                startNewActivity(MainActivity.class);
             }
         });
 
+    }
+
+    private void startNewActivity(Class<?> newActivity) {
+        finish();
+        startActivity(new Intent(getApplicationContext(), newActivity));
+    }
+
+    private void handleEmptyNotesList() {
+        if (currentUser.getNoteList() != null)
+            activity_main_TXT_noNotes.setVisibility(View.INVISIBLE);
+        else {
+            activity_main_TXT_noNotes.setText("No Notes");
+            activity_main_TXT_noNotes.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initData() {
@@ -76,7 +81,7 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     private void showDefaultFragment() {
-        MapModeFragment listModeFragment = new MapModeFragment();
+        ListModeFragment listModeFragment = new ListModeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_FEM_frameLayout, listModeFragment);
         transaction.commit();
@@ -116,7 +121,6 @@ public class MainScreenActivity extends AppCompatActivity {
                     .commit();
             return true;
         }
-        };
+    };
 
-    }
-
+}

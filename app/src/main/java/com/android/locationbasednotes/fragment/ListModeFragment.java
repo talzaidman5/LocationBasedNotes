@@ -1,4 +1,4 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.fragment;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.locationbasednotes.Adapter_Note;
+import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;

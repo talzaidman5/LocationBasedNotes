@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,42 +25,43 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends SignupActivity {
-    private FirebaseUser user;
-    private boolean isLoginAuth= false;
+    private FirebaseUser firebaseUser;
+    public boolean isLoginAuth = false;
     private User currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentUser = getFromMSP();
-        ChangeFieldsToLogin();
+        currentUser = getUserFromMSP();
+        changeFieldsToLogin();
 
         signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkFields(signUp_EDT_email)&&checkFields(signUp_EDT_password))
-                    register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
+                if(checkField(signUp_EDT_email)&&checkField(signUp_EDT_password))
+                    signUpUser(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
             }
         });
     }
 
-    private void ChangeFieldsToLogin() {
-
+    private void changeFieldsToLogin() {
         signUp_BTN_signUp.setText(getString(R.string.login));
         activity_main_TXT_title.setText(getString(R.string.login));
 
         LinearLayout linearLayout = new LinearLayout(this);
         TextView isLoginAuthText = new TextView(this);
-        Button isLoginAuthButton = new Button(this);
-        isLoginAuthText.setText(getString(R.string.loginAuthText));
-        isLoginAuthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
-        isLoginAuthButton.setId(R.id.signUp_BTN_loginAuth);
-        isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
+        CheckBox isLoginAuthButton = new CheckBox(this);
 
-        isLoginAuthButton.setOnClickListener(v -> {
-            authLoginButtonClick(isLoginAuthButton);
+        isLoginAuthButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isLoginAuth = isChecked;
+            }
         });
+        isLoginAuthButton.setText(getString(R.string.loginAuthText));
+        isLoginAuthButton.setId(R.id.signUp_BTN_loginAuth);
+
         linearLayout.addView(isLoginAuthButton);
         linearLayout.addView(isLoginAuthText);
         signUp_LIY_layout.addView(linearLayout);
@@ -66,28 +69,20 @@ public class LoginActivity extends SignupActivity {
 
         if(currentUser!=null)
             if(currentUser.isLoginAuth())
-                isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_check_circle_outline_black_24));
-
-
-
+                isLoginAuthButton.setChecked(true);
     }
 
-    private void authLoginButtonClick(Button isLoginAuthButton) {
-        isLoginAuth=!isLoginAuth;
-        if(isLoginAuth)
-            isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_check_circle_outline_black_24));
-        else
-            isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
-    }
-
-    private void register(String email, String password) {
+    private void signUpUser(String email, String password) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            user = auth.getCurrentUser();
+                            firebaseUser = auth.getCurrentUser();
                             getFromFirebase();
+                                if(currentUser.isLoginAuth()!=isLoginAuth)
+                                    currentUser.setLoginAuth(isLoginAuth);
+                                    saveToFirebase(currentUser);
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }
@@ -95,7 +90,7 @@ public class LoginActivity extends SignupActivity {
     }
 
     private void getFromFirebase() {
-        myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
