@@ -1,11 +1,9 @@
-package com.android.locationbasednotes;
+package com.android.locationbasednotes.utils;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
-import com.android.locationbasednotes.activities.MainActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
@@ -86,16 +84,15 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         mHolder.note_BTN_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = mHolder.getLayoutPosition();
-                currentNote = (Note) getItem(pos);
-                editNote();
+                currentNote = (Note) getItem(mHolder.getLayoutPosition());
+                editNote(v);
             }
         });
 
     }
-    private void editNote() {
+    private void editNote(View v) {
         saveNoteInMSF();
-        context.startActivity(new Intent(context, EditNoteActivity.class));
+        v.getContext().startActivity(new Intent(v.getContext(), EditNoteActivity.class));
 
     }
     private void downloadImage(ViewHolder_Normal mHolder) {

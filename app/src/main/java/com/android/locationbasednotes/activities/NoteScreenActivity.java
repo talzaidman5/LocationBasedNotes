@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,7 +57,7 @@ import java.util.List;
 
 public class NoteScreenActivity extends AppCompatActivity {
     protected Button activity_note_screen_BTN_save, activity_note_screen_BTN_delete,activity_note_screen_BTN_uploadImage;
-    protected EditText activity_note_screen_EDT_title, activity_note_screen_EDT_body;
+    protected TextInputLayout activity_note_screen_EDT_title, activity_note_screen_EDT_body;
     protected TextView activity_note_screen_TXT_title;
     private MySheredP msp;
     private ProgressBar activity_note_screen_PRB_progressBar;
@@ -69,7 +71,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     private boolean isAddImage = false;
     private Uri fileUri;
     protected StorageReference mStorageRef;
-
+    private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkField(activity_note_screen_EDT_title) && checkField(activity_note_screen_EDT_body))
+                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText()))
                     activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
                 saveNote();
             }
@@ -95,15 +97,18 @@ public class NoteScreenActivity extends AppCompatActivity {
     private void initData() {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(2000);
+        locationRequest.setInterval(INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         msp = new MySheredP(this);
         myRef = database.getReference(getString(R.string.AllUsersFirebase));
-
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -222,7 +227,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     private void createNewNote() {
-        Note note = new Note(activity_note_screen_EDT_title.getText().toString(), activity_note_screen_EDT_body.getText().toString(), vetLocation);
+        Note note = new Note(activity_note_screen_EDT_title.getEditText().getText().toString(), activity_note_screen_EDT_body.getEditText().getText().toString(), vetLocation);
         if (isAddImage) {
             note.setImage(true);
             saveToFirebase(currentUser);
@@ -234,7 +239,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainScreenActivity.class));
     }
 
-    private boolean checkField(EditText editTextToCheck) {
+    protected boolean checkField(EditText editTextToCheck) {
         if (editTextToCheck.getText().toString().equals("")) {
             editTextToCheck.setError(getText(R.string.editTextError));
             return false;
@@ -243,22 +248,22 @@ public class NoteScreenActivity extends AppCompatActivity {
     }
 
     protected void saveImage(Note note) {
-        mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
-                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
-                        note.setImage(true);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        if (fileUri != null) {
+            mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            Toast.makeText(getApplicationContext(), "uploaded ", Toast.LENGTH_SHORT).show();
+                            note.setImage(true);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
-
     private void addNoteToUser(Note note) {
         currentUser.addToNoteList(note);
         saveToFirebase(currentUser);

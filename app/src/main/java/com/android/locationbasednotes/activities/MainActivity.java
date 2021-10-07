@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MotionEvent;
 import android.widget.Button;
 
 import com.android.locationbasednotes.R;
@@ -21,20 +21,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         findViews();
-        main_activity_BTN_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNewActivity(LoginActivity.class);
-            }
-        });
-
-        main_activity_BTN_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNewActivity(SignupActivity.class);
-            }
-        });
-
+        main_activity_BTN_login.setOnClickListener(v ->startNewActivity(LoginActivity.class));
+        main_activity_BTN_signup.setOnClickListener(v ->  startNewActivity(SignupActivity.class));
     }
 
     private void startNewActivity(Class<?> newActivity) {
@@ -45,5 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private void findViews() {
         main_activity_BTN_login = findViewById(R.id.main_activity_BTN_login);
         main_activity_BTN_signup = findViewById(R.id.main_activity_BTN_signup);
+    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 }

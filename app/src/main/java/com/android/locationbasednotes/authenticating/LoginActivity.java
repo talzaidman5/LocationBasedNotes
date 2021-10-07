@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.MainScreenActivity;
-import com.android.locationbasednotes.authenticating.SignupActivity;
 import com.android.locationbasednotes.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,18 +35,20 @@ public class LoginActivity extends AuthenticateBaseActivity {
         currentUser = getUserFromMSP();
         changeFieldsToLogin();
 
-        signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
+        authenticate_base_BTN_do_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkField(signUp_EDT_email)&&checkField(signUp_EDT_password))
-                    signUpUser(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
+                closeKeyboard(view);
+                if(checkField(authenticate_base_EDT_email.getEditText())&&checkField(authenticate_base_EDT_password.getEditText()))
+                    signUpUser(authenticate_base_EDT_email.getEditText().getText().toString(), authenticate_base_EDT_password.getEditText().getText().toString());
             }
         });
     }
 
+
     private void changeFieldsToLogin() {
-        signUp_BTN_signUp.setText(getString(R.string.login));
-        activity_main_TXT_title.setText(getString(R.string.login));
+        authenticate_base_BTN_do_action.setText(getString(R.string.login));
+        authenticate_base_TXT_title.setText(getString(R.string.login));
 
         LinearLayout linearLayout = new LinearLayout(this);
         TextView isLoginAuthText = new TextView(this);
@@ -64,7 +65,7 @@ public class LoginActivity extends AuthenticateBaseActivity {
 
         linearLayout.addView(isLoginAuthButton);
         linearLayout.addView(isLoginAuthText);
-        signUp_LIY_layout.addView(linearLayout);
+        authenticate_base_LIY_layout.addView(linearLayout);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         if(currentUser!=null)
@@ -78,6 +79,7 @@ public class LoginActivity extends AuthenticateBaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
                             firebaseUser = auth.getCurrentUser();
                             getFromFirebase();
                                 if(currentUser.isLoginAuth()!=isLoginAuth)

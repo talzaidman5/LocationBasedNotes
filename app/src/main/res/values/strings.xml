@@ -14,4 +14,5 @@
     <string name="editNote">Edit Note</string>
     <string name="noteKey">note</string>
     <string name="editTextError">Can\'t be null</string>
+    <string name="signup">Signup</string>
 </resources>

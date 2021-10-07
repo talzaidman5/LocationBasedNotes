@@ -16,7 +16,7 @@
     android:background="@drawable/outline_logout_black_48">
 </Button>
     <TextView
-        android:id="@+id/activity_main_TXT_title"
+        android:id="@+id/authenticate_base_TXT_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_main_TXT_title"
+        android:layout_below="@id/authenticate_base_TXT_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:gravity="center"

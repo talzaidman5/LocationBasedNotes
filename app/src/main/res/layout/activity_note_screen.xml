@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFEF87"
     tools:context=".activities.NoteScreenActivity">
     <TextView
@@ -13,36 +13,61 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Create a new note"
+        android:layout_marginTop="20dp"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/activity_note_screen_EDT_title"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:hint="Title"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:inputType="textCapSentences"
+        android:textColorHint="@color/black"
+        android:gravity="left"
         android:layout_below="@+id/activity_note_screen_TXT_title"
-        android:textStyle="bold" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:outlineAmbientShadowColor="@color/black"
+        android:hint="Title"
+        android:layout_marginTop="30dp"
+        app:hintTextColor="@color/black"
+        android:id="@+id/activity_note_screen_EDT_title">
 
-    <EditText
-        android:id="@+id/activity_note_screen_EDT_body"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:inputType="text|textCapSentences"
+            android:gravity="left"
+            android:background="@android:drawable/dialog_holo_light_frame" />
+
+    </com.google.android.material.textfield.TextInputLayout >
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:hint="Body"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:inputType="textCapSentences|textMultiLine"
         android:layout_below="@+id/activity_note_screen_EDT_title"
-        android:maxLines="5"
-        android:textStyle="bold" />
+        android:textColorHint="@color/black"
+        android:gravity="left"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:outlineAmbientShadowColor="@color/black"
+        android:hint="Body"
+        android:layout_marginTop="10dp"
+        app:hintTextColor="@color/black"
+        android:id="@+id/activity_note_screen_EDT_body">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:gravity="left"
+            android:maxLines="5"
+            android:background="@android:drawable/dialog_holo_light_frame" />
+
+    </com.google.android.material.textfield.TextInputLayout >
+
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"

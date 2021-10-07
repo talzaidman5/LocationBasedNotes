@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.locationbasednotes.Adapter_Note;
+import com.android.locationbasednotes.utils.Adapter_Note;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;

@@ -1,10 +1,9 @@
 package com.android.locationbasednotes.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.locationbasednotes.Adapter_Note;
 import com.android.locationbasednotes.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,32 +26,22 @@ public class EditNoteActivity extends NoteScreenActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        activity_note_screen_TXT_title.setText(getString(R.string.editNote));
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
         currentNote = getNoteFromMSP();
         currentUser = getUserFromMSP();
-        updateNote();
+
+        setNoteData();
 
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity_note_screen_EDT_title.setEnabled(true);
-                activity_note_screen_EDT_body.setEnabled(true);
-
-                currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getText().toString());
-                currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getText().toString());
+                updateDataActivity(false,activity_note_screen_EDT_title.getEditText().getText().toString(),
+                        activity_note_screen_EDT_body.getEditText().getText().toString());
                 saveToFirebase(currentUser);
                 Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
             }
         });
-        activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getImage();
-            }
-        });
-
+        activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
 
         activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,18 +52,30 @@ public class EditNoteActivity extends NoteScreenActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImage(currentUser.getNote(currentNote.getID()));
-                currentUser.getNote(currentNote.getID()).setImage(true);
-
-                saveToFirebase(currentUser);
-                finish();
-
-                startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
+                    saveNewData();
+                    saveToFirebase(currentUser);
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                }
             }
         });
     }
 
+    private void updateDataActivity(boolean enabled, String title, String body) {
+        activity_note_screen_EDT_title.setEnabled(enabled);
+        activity_note_screen_EDT_body.setEnabled(enabled);
 
+        currentUser.getNote(currentNote.getID()).setTitle(title);
+        currentUser.getNote(currentNote.getID()).setBody(body);
+    }
+
+    private void saveNewData() {
+        saveImage(currentUser.getNote(currentNote.getID()));
+        currentUser.getNote(currentNote.getID()).setImage(true);
+        currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getEditText().getText().toString());
+        currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getEditText().getText().toString());
+    }
 
     private void deleteNote() {
 
@@ -93,45 +93,44 @@ public class EditNoteActivity extends NoteScreenActivity {
         saveToFirebase(currentUser);
     }
 
-    private void updateNote() {
-        activity_note_screen_EDT_title.setText(currentNote.getTitle());
-        activity_note_screen_EDT_body.setText(currentNote.getBody());
+    private void setNoteData() {
 
-        activity_note_screen_EDT_title.setEnabled(true);
-        activity_note_screen_EDT_body.setEnabled(true);
+        updateDataActivity(true,currentNote.getTitle(),currentNote.getBody());
+        activity_note_screen_TXT_title.setText(getString(R.string.editNote));
         if (currentNote.isImage())
             downloadImage(activity_note_screen_IMG_image);
         else
-            activity_note_screen_IMG_image.setBackgroundColor(getColor(R.color.noteWithoutImage));
+            activity_note_screen_IMG_image.setVisibility(View.INVISIBLE);
 
     }
 
-        private void downloadImage(ImageView activity_note_screen_IMG_image) {
-            getUserFromMSP();
-            mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
-                    addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide
-                                    .with(getApplicationContext())
-                                    .load(uri)
-                                    .into(activity_note_screen_IMG_image);
+    private void downloadImage(ImageView activity_note_screen_IMG_image) {
+        getUserFromMSP();
+        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
+                addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide
+                                .with(getApplicationContext())
+                                .load(uri)
+                                .into(activity_note_screen_IMG_image);
 
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
 
-                }
-            });
+            }
+        });
 
-        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,6 +138,11 @@ public class EditNoteActivity extends NoteScreenActivity {
                 .with(getApplicationContext())
                 .load(data.getData())
                 .into(activity_note_screen_IMG_image);
+    }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        // Your code here
+        return super.dispatchTouchEvent(ev);
     }
 }

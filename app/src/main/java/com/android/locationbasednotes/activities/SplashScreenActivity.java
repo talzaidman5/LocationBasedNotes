@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.authenticating.LoginActivity;
@@ -62,7 +63,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if (currentUser.isLoginAuth())
                     startNewActivity(MainScreenActivity.class);
                 else
-                    startNewActivity(LoginActivity.class);
+                    startNewActivity(MainActivity.class);
             }
 
             @Override
@@ -71,7 +72,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        // Your code here
+        return super.dispatchTouchEvent(ev);
+    }
     private void startNewActivity(Class<?> newActivity) {
         finish();
         startActivity(new Intent(getApplicationContext(), newActivity));
