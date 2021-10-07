@@ -5,30 +5,30 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.locationbasednotes.firebase.FirebaseManager;
-import com.android.locationbasednotes.firebase.FirebaseManagerCallback;
+import com.android.locationbasednotes.firebase.OnUserFetchedCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.utils.IDBManager;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private Gson gson = new Gson();
-    private FirebaseUser currentUserFB;
+    private String currentUserID;
     private MySheredP msp;
-    protected FirebaseManager firebaseManager;
+    protected IDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
-        firebaseManager = FirebaseManager.GetInstance();
+        dbManager = FirebaseManager.GetInstance();
 
         InitData();
 
-        if (currentUserFB != null)
-            firebaseManager.readFromFirebase(currentUserFB, this, new FirebaseManagerCallback() {
+        if (currentUserID != null)
+            dbManager.readFromDB(currentUserID, this, new OnUserFetchedCallback() {
                 @Override
                 public void OnUserFetched(User user) {
                     putOnMSP(user);
@@ -46,7 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void InitData() {
         msp = new MySheredP(this);
-        currentUserFB = firebaseManager.getCurrentUserAuth();
+        currentUserID = dbManager.getCurrentUserIDFromDB();
     }
 
 

@@ -16,22 +16,23 @@ import android.widget.TextView;
 
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.firebase.FirebaseManager;
 import com.android.locationbasednotes.fragment.ListModeFragment;
 import com.android.locationbasednotes.fragment.MapModeFragment;
+import com.android.locationbasednotes.utils.IDBManager;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 public class MainScreenActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
     private Button activity_main_BTN_signout;
     private FloatingActionButton activity_main_BTN_createNewNote;
     private MySheredP msp;
     private BottomNavigationView activity_main_NGV_navigationMenu;
     private User currentUser;
     private TextView activity_main_TXT_noNotes;
+    protected IDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
                 .setPositiveButton(view.getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mAuth.signOut();
+                        dbManager.signOut();
                         finish();
                         startNewActivity(MainActivity.class);
                     }
@@ -94,7 +95,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
     private void initData() {
         msp = new MySheredP(this);
-        mAuth = FirebaseAuth.getInstance();
+        dbManager = FirebaseManager.GetInstance();
     }
 
     private void showDefaultFragment() {

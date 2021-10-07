@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
-import com.android.locationbasednotes.firebase.FirebaseStorageManagerCallback;
+import com.android.locationbasednotes.firebase.OnUserFetchedUriCallback;
 import com.android.locationbasednotes.R;
 import com.bumptech.glide.Glide;
 
@@ -29,7 +29,7 @@ public class EditNoteActivity extends NoteScreenActivity {
             public void onClick(View v) {
                 updateDataActivity(false,activity_note_screen_EDT_title.getEditText().getText().toString(),
                         activity_note_screen_EDT_body.getEditText().getText().toString());
-                firebaseManager.writeToFirebase(currentUser);
+                dbManager.writeToDB(currentUser);
                 Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
             }
         });
@@ -46,11 +46,11 @@ public class EditNoteActivity extends NoteScreenActivity {
             public void onClick(View v) {
                 if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
                     saveNewData();
-                    firebaseManager.writeToFirebase(currentUser);
+                    dbManager.writeToDB(currentUser);
                     finish();
                     startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-                    if(                isAddImage ) {
-                        firebaseManager.saveImageInStorage(currentNote,uri);
+                    if(isAddImage) {
+                        dbManager.saveImageInDB(currentNote,uri,currentUser);
                     }
                 }
             }
@@ -74,9 +74,9 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void deleteNote() {
 
-        firebaseManager.deleteImageFromStorage(currentUser,currentNote,"Note deleted");
+        dbManager.deleteImageFromDB(currentUser,currentNote,"Note deleted");
         currentUser.deleteNote(currentNote);
-        firebaseManager.writeToFirebase(currentUser);
+        dbManager.writeToDB(currentUser);
     }
 
     private void setNoteData() {
@@ -94,7 +94,7 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void downloadImage() {
         getUserFromMSP();
-        firebaseManager.downloadImageFromStorage(currentNote, new FirebaseStorageManagerCallback() {
+        dbManager.downloadImageFromDB(currentNote, new OnUserFetchedUriCallback() {
             @Override
             public void OnUserFetched(Uri uri) {
                 isAddImage = true;

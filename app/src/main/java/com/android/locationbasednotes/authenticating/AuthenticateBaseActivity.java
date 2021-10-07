@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.locationbasednotes.firebase.FirebaseManager;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.utils.IDBManager;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,24 +24,22 @@ import com.google.gson.Gson;
 public class AuthenticateBaseActivity extends AppCompatActivity  {
     protected Button authenticate_base_BTN_do_action;
     protected TextInputLayout authenticate_base_EDT_email, authenticate_base_EDT_password;
-    protected FirebaseAuth auth;
     protected TextView authenticate_base_TXT_title;
     protected Gson gson = new Gson();
     protected MySheredP msp;
     protected LinearLayout authenticate_base_LIY_layout;
     protected User currentUser;
     protected ProgressBar authenticate_base_PRB_progressBar;
-    protected FirebaseManager firebaseManager;
+    protected IDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate_base_activity);
         findViews();
-        firebaseManager = FirebaseManager.GetInstance();
+        dbManager = FirebaseManager.GetInstance();
         getSupportActionBar().hide();
         authenticate_base_PRB_progressBar.setVisibility(View.INVISIBLE);
-        auth = FirebaseAuth.getInstance();
         msp = new MySheredP(this);
     }
 

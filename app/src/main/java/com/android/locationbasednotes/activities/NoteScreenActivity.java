@@ -10,6 +10,7 @@ import com.android.locationbasednotes.firebase.FirebaseManager;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.utils.IDBManager;
 import com.bumptech.glide.Glide;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.common.api.ApiException;
@@ -63,7 +64,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     protected boolean isAddImage = false;
     private Uri fileUri;
     private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
-    protected FirebaseManager firebaseManager;
+    protected IDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
-        firebaseManager = FirebaseManager.GetInstance();
+        dbManager = FirebaseManager.GetInstance();
 
         msp = new MySheredP(this);
     }
@@ -242,13 +243,13 @@ public class NoteScreenActivity extends AppCompatActivity {
     protected void saveImage(Note note) {
 
         if (fileUri != null) {
-            firebaseManager.saveImageInStorage(note,fileUri);
+            dbManager.saveImageInDB(note,fileUri,currentUser);
             note.setImage(true);
         }
     }
     private void addNoteToUser(Note note) {
         currentUser.addToNoteList(note);
-        firebaseManager.writeToFirebase(currentUser);
+        dbManager.writeToDB(currentUser);
     }
 
 

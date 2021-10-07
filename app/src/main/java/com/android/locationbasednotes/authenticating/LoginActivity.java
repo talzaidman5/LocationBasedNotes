@@ -1,7 +1,5 @@
 package com.android.locationbasednotes.authenticating;
 
-import androidx.annotation.NonNull;
-
 import android.view.ViewGroup.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.locationbasednotes.firebase.FirebaseManager;
-import com.android.locationbasednotes.firebase.FirebaseManagerCallback;
+import com.android.locationbasednotes.firebase.OnUserFetchedCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.User;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.android.locationbasednotes.firebase.OnUserSignCallback;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AuthenticateBaseActivity {
-    private FirebaseUser firebaseUser;
     public boolean isLoginAuth = false;
     private User currentUser;
 
@@ -33,14 +28,14 @@ public class LoginActivity extends AuthenticateBaseActivity {
 
         currentUser = getUserFromMSP();
         changeFieldsToLogin();
-        firebaseManager = FirebaseManager.GetInstance();
+        dbManager = FirebaseManager.GetInstance();
 
         authenticate_base_BTN_do_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 closeKeyboard(view);
                 if(checkField(authenticate_base_EDT_email.getEditText())&&checkField(authenticate_base_EDT_password.getEditText()))
-                    signUpUser(authenticate_base_EDT_email.getEditText().getText().toString(), authenticate_base_EDT_password.getEditText().getText().toString());
+                    signInUser(authenticate_base_EDT_email.getEditText().getText().toString(), authenticate_base_EDT_password.getEditText().getText().toString());
             }
         });
     }
@@ -73,33 +68,34 @@ public class LoginActivity extends AuthenticateBaseActivity {
                 isLoginAuthButton.setChecked(true);
     }
 
-    private void signUpUser(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
-                            firebaseUser = auth.getCurrentUser();
-                            getFromFirebase();
-                            if (currentUser.isLoginAuth() != isLoginAuth)
-                                currentUser.setLoginAuth(isLoginAuth);
-                            firebaseManager.writeToFirebase(currentUser);
-                        } else
-                            Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void signInUser(String email, String password) {
+        dbManager.signInWithEmailAndPassword(email, password , new OnUserSignCallback(){
+            @Override
+            public void OnUserSign(Task task) {
+                if (task.isSuccessful()) {
+                    authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
+                    getFromFirebase();
+                    if (currentUser.isLoginAuth() != isLoginAuth)
+                        currentUser.setLoginAuth(isLoginAuth);
+                    dbManager.writeToDB(currentUser);
+                }
+                else
+                    Toast.makeText(getApplicationContext(), task.getResult().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     private void getFromFirebase() {
 
-        firebaseManager.readFromFirebase(firebaseUser, this, new FirebaseManagerCallback() {
+        dbManager.readFromDB(currentUser.getUid(), this, new OnUserFetchedCallback() {
             @Override
             public void OnUserFetched(User user) {
                 putOnMSP(currentUser);
                 if (isLoginAuth){
                     currentUser.setLoginAuth(isLoginAuth);
-                    firebaseManager.writeToFirebase(currentUser);
+                    dbManager.writeToDB(currentUser);
                 }
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));

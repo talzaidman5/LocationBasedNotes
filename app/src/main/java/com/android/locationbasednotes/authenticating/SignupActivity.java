@@ -1,7 +1,5 @@
 package com.android.locationbasednotes.authenticating;
 
-import androidx.annotation.NonNull;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +9,9 @@ import android.widget.Toast;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.MainScreenActivity;
 import com.android.locationbasednotes.data.User;
+import com.android.locationbasednotes.firebase.OnUserSignCallback;
 import com.android.locationbasednotes.utils.MySheredP;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AuthenticateBaseActivity  {
 
@@ -25,7 +20,6 @@ public class SignupActivity extends AuthenticateBaseActivity  {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        auth = FirebaseAuth.getInstance();
         msp = new MySheredP(this);
         changeFieldsToLogin();
 
@@ -49,15 +43,16 @@ public class SignupActivity extends AuthenticateBaseActivity  {
 
     private void register(String email, String password) {
         if (email != null && password != null) {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            dbManager.createUserWithEmailAndPassword(email, password , new OnUserSignCallback(){
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
+                public void OnUserSign(Task task) {
+
+                if (task.isSuccessful()) {
                         authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
-                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                        assert firebaseUser != null;
-                        User user = new User(email, password, firebaseUser.getUid());
-                        firebaseManager.writeToFirebase(user);
+                        String userID = dbManager.getCurrentUserIDFromDB();
+                        assert userID != null;
+                        User user = new User(email, password, userID);
+                        dbManager.writeToDB(user);
                         putOnMSP(user);
                         finish();
                         startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));

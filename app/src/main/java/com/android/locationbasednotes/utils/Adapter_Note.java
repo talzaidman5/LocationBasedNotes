@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.locationbasednotes.firebase.FirebaseManager;
-import com.android.locationbasednotes.firebase.FirebaseStorageManagerCallback;
+import com.android.locationbasednotes.firebase.OnUserFetchedUriCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
 import com.android.locationbasednotes.data.Note;
@@ -33,7 +33,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private MySheredP msp;
     private User currentUser;
     private Note currentNote;
-    protected FirebaseManager firebaseManager;
+    protected IDBManager dbManager;
 
     public Adapter_Note( List<Note> notes,Context context) {
         this.context = context;
@@ -51,7 +51,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == VIEW_TYPE_NORMAL) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_note, parent, false);
             msp = new MySheredP(context);
-            firebaseManager = FirebaseManager.GetInstance();
+            dbManager = FirebaseManager.GetInstance();
             return new ViewHolder_Normal(view);
 
         }
@@ -91,7 +91,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
     private void downloadImage(ViewHolder_Normal mHolder) {
         getUserFromMSP();
-        firebaseManager.downloadImageFromStorage(currentNote, new FirebaseStorageManagerCallback() {
+        dbManager.downloadImageFromDB(currentNote, new OnUserFetchedUriCallback() {
             @Override
             public void OnUserFetched(Uri uri) {
                 Glide
