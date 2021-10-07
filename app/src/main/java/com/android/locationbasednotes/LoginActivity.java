@@ -33,8 +33,9 @@ public class LoginActivity extends  SignupActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        signUp_BTN_signUp.setText(getString(R.string.login));
-        activity_main_TXT_title.setText(getString(R.string.login));
+
+        currentUser = getFromMSP();
+        ChangeFieldsToLogin();
 
         signUp_BTN_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,20 +43,21 @@ public class LoginActivity extends  SignupActivity {
                 register(signUp_EDT_email.getText().toString(), signUp_EDT_password.getText().toString());
             }
         });
-        ChangeFieldsToLogin();
     }
 
     private void ChangeFieldsToLogin() {
+
+        signUp_BTN_signUp.setText(getString(R.string.login));
+        activity_main_TXT_title.setText(getString(R.string.login));
+
         LinearLayout linearLayout = new LinearLayout(this);
         TextView isLoginAuthText = new TextView(this);
         Button isLoginAuthButton = new Button(this);
         isLoginAuthText.setText(getString(R.string.loginAuthText));
-
         isLoginAuthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_radio_button_unchecked_black_24));
         isLoginAuthButton.setId(R.id.signUp_BTN_loginAuth);
-        isLoginAuthButton.setGravity(Gravity.START);
-        isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+        isLoginAuthButton.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
 
         isLoginAuthButton.setOnClickListener(v -> {
             AuthLoginButtonClick(isLoginAuthButton);
@@ -64,7 +66,11 @@ public class LoginActivity extends  SignupActivity {
         linearLayout.addView(isLoginAuthText);
         signUp_LIY_layout.addView(linearLayout);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        linearLayout.setGravity(Gravity.LEFT);
+
+        if(currentUser!=null)
+            if(currentUser.isLoginAuth())
+                isLoginAuthButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_check_circle_outline_black_24));
+
 
 
     }
@@ -85,10 +91,10 @@ public class LoginActivity extends  SignupActivity {
                         if (task.isSuccessful()) {
                             user = auth.getCurrentUser();
                             getFromFirebase();
-//                            if(isLoginAuth)
-//                                SaveToFirebase(currentUser);
-//                            finish();
-//                            startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                            if(isLoginAuth!=currentUser.isLoginAuth()) {
+                                currentUser.setLoginAuth(isLoginAuth);
+                                SaveToFirebase(currentUser);
+                            }
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }
@@ -111,7 +117,6 @@ public class LoginActivity extends  SignupActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

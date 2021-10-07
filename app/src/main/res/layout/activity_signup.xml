@@ -26,12 +26,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:inputType="textCapSentences"
         android:gravity="left"
         android:hint="Email"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold" />
+
         <EditText
             android:id="@+id/signUp_EDT_password"
             android:layout_width="match_parent"
@@ -39,6 +41,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="left"
             android:hint="Password"
+            android:inputType="textCapSentences"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:textSize="25dp"

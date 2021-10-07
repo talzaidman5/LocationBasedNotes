@@ -78,7 +78,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void putOnMSP() {
-    //    currentUser.setUid(currentUserFB.getUid());
         String user = gson.toJson(currentUser);
         msp.putString(getString(R.string.UserKey), user);
     }

@@ -26,6 +26,7 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
+        android:inputType="textCapSentences"
         android:layout_below="@+id/activity_note_screen_TXT_title"
         android:textStyle="bold" />
 
@@ -38,6 +39,7 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
+        android:inputType="textCapSentences|textMultiLine"
         android:layout_below="@+id/activity_note_screen_EDT_title"
         android:textStyle="bold" />
     <ImageView

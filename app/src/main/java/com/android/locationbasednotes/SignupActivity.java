@@ -32,6 +32,7 @@ public class SignupActivity extends AppCompatActivity  {
     protected Gson gson = new Gson();
     protected MySheredP msp;
     protected LinearLayout signUp_LIY_layout;
+    protected User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,12 @@ public class SignupActivity extends AppCompatActivity  {
     protected void putOnMSP(User userToSave) {
         String user = gson.toJson(userToSave);
         msp.putString(getString(R.string.UserKey), user);
+    }
+    protected User getFromMSP() {
+        Gson gson = new Gson();
+        String data = msp.getString(getString(R.string.UserKey), "NA");
+        currentUser = gson.fromJson(data, User.class);
+        return currentUser;
     }
 
     private void FindViews() {

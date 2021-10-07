@@ -3,14 +3,18 @@ package com.android.locationbasednotes;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.locationbasednotes.utils.MySheredP;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,7 +22,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 
 public class MapModeFragment extends Fragment implements OnMapReadyCallback {
@@ -53,17 +63,18 @@ public class MapModeFragment extends Fragment implements OnMapReadyCallback {
                 mMap = googleMap;
                 LatLng latLng = new LatLng(note.getLocation().get(0), note.getLocation().get(1));
                 mMap.addMarker(new MarkerOptions().position(latLng).title(note.getTitle()));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                             @Override
                             public boolean onMarkerClick(Marker marker) {
                                 putOnMSP(note);
-                                ShowDialogNote(note);
+                                startActivity(new Intent(getContext(), EditNoteActivity.class));
                                 return false;
                             }
                         });
             }
+            LatLng latLng= new LatLng(currentUser.getNoteList().get(0).getLocation().get(0), currentUser.getNoteList().get(0).getLocation().get(1));
+            mMap.animateCamera( CameraUpdateFactory.newLatLngZoom(latLng,10));
+
         }
     }
     protected void putOnMSP(Note currentNote) {
@@ -72,27 +83,6 @@ public class MapModeFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void ShowDialogNote(Note note) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setCancelable(true);
-        builder.setTitle(note.getTitle());
-        builder.setMessage(note.getBody());
-        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.setPositiveButton("Edit Note", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getContext(), EditNoteActivity.class));
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
 
-    }
 }
