@@ -6,16 +6,11 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.locationbasednotes.FirebaseStorageManagerCallback;
 import com.android.locationbasednotes.R;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 public class EditNoteActivity extends NoteScreenActivity {
 
@@ -96,28 +91,17 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void downloadImage() {
         getUserFromMSP();
-//        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
-//                addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        isAddImage = true;
-//                        Glide
-//                                .with(getApplicationContext())
-//                                .load(uri)
-//                                .into(activity_note_screen_IMG_image);
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//
-//            }
-//        });
-//
+        firebaseManager.downloadImageFromStorage(currentNote, new FirebaseStorageManagerCallback() {
+            @Override
+            public void OnUserFetched(Uri uri) {
+                isAddImage = true;
+                Glide
+                        .with(getApplicationContext())
+                        .load(uri)
+                        .into(activity_note_screen_IMG_image);
+
+            }
+        });
     }
 
     @Override

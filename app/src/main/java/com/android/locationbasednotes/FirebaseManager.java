@@ -31,13 +31,9 @@ import com.google.gson.Gson;
 public class FirebaseManager { // Singleton object
 
     private static FirebaseManager instance;
-    private FirebaseUser firebaseUser;
-    private FirebaseAuth mAuth;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private User currentUser;
-    private MySheredP msp;
-    protected Gson gson = new Gson();
     private Context context;
     private final String FIREBASE_REFERENCE = "AllUsers";
     protected StorageReference mStorageRef;
@@ -72,13 +68,12 @@ public class FirebaseManager { // Singleton object
             myRef.child(user.getUid()).setValue(user);
         }
 
-public void saveImageInStorage(Note note, Uri fileUri, Context context) {
+public void saveImageInStorage(Note note, Uri fileUri) {
 
     mStorageRef.child(currentUser.getUid()).child(note.getID()).putFile(fileUri)
             .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                }
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) { }
             }).addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
@@ -98,12 +93,12 @@ public void deleteImageFromStorage(User user, Note currentNote, String textOnSuc
         }
     });
 }
-public void downloadImageFromStorage(Note currentNote, FirebaseManagerCallback callback){
+public void downloadImageFromStorage(Note currentNote, FirebaseStorageManagerCallback callback){
     mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
             addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-//callback();
+                    callback.OnUserFetched(uri);
                 }
             }).addOnFailureListener(new OnFailureListener() {
         @Override

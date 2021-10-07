@@ -44,11 +44,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -84,9 +79,10 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText()))
+                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
                     activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
                     getLocationAndCreateNote();
+                }
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
@@ -247,7 +243,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     protected void saveImage(Note note) {
 
         if (fileUri != null) {
-            firebaseManager.saveImageInStorage(note,fileUri,getApplicationContext());
+            firebaseManager.saveImageInStorage(note,fileUri);
             note.setImage(true);
         }
     }

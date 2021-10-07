@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.locationbasednotes.FirebaseManager;
+import com.android.locationbasednotes.FirebaseStorageManagerCallback;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.EditNoteActivity;
 import com.android.locationbasednotes.data.Note;
@@ -36,9 +38,9 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<Note> notes;
     private Gson gson = new Gson();
     private MySheredP msp;
-    private StorageReference mStorageRef;
     private User currentUser;
     private Note currentNote;
+    protected FirebaseManager firebaseManager;
 
     public Adapter_Note( List<Note> notes,Context context) {
         this.context = context;
@@ -56,8 +58,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == VIEW_TYPE_NORMAL) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_note, parent, false);
             msp = new MySheredP(context);
-            mStorageRef = FirebaseStorage.getInstance().getReference();
-
+            firebaseManager = FirebaseManager.GetInstance();
             return new ViewHolder_Normal(view);
 
         }
@@ -97,26 +98,13 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
     private void downloadImage(ViewHolder_Normal mHolder) {
         getUserFromMSP();
-        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
-                addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide
-                                .with(context)
-                                .load(uri)
-                                .into(mHolder.note_IMG_image);
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        firebaseManager.downloadImageFromStorage(currentNote, new FirebaseStorageManagerCallback() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-
+            public void OnUserFetched(Uri uri) {
+                Glide
+                        .with(context)
+                        .load(uri)
+                        .into(mHolder.note_IMG_image);
             }
         });
 
