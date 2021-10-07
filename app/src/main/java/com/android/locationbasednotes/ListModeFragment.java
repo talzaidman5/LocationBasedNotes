@@ -39,8 +39,6 @@ public class ListModeFragment extends Fragment {
 
         showAllNotes();
 
-
-
         return view;
     }
     public void showAllNotes() {
@@ -53,6 +51,7 @@ public class ListModeFragment extends Fragment {
         });
 
         if (currentUser.getNoteList() != null) {
+
             Adapter_Note adapter_note = new Adapter_Note(currentUser.getNoteList(),getContext());
             activity_main_LST_notes.setLayoutManager(new LinearLayoutManager(getContext()));
             activity_main_LST_notes.setItemAnimator(new DefaultItemAnimator());

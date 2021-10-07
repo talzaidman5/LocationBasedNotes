@@ -76,7 +76,7 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     private void showDefaultFragment() {
-        ListModeFragment listModeFragment = new ListModeFragment();
+        MapModeFragment listModeFragment = new MapModeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_FEM_frameLayout, listModeFragment);
         transaction.commit();

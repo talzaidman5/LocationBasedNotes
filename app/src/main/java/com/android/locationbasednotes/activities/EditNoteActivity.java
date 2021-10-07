@@ -34,6 +34,7 @@ public class EditNoteActivity extends NoteScreenActivity {
         currentNote = getNoteFromMSP();
         currentUser = getUserFromMSP();
         updateNote();
+
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,14 +45,16 @@ public class EditNoteActivity extends NoteScreenActivity {
                 currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getText().toString());
                 saveToFirebase(currentUser);
                 Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
-                activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getImage();
-                    }
-                });
             }
         });
+        activity_note_screen_BTN_uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getImage();
+            }
+        });
+
+
         activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,13 +64,13 @@ public class EditNoteActivity extends NoteScreenActivity {
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser.getNote(currentNote.getID()).setImage(true);
                 saveImage(currentUser.getNote(currentNote.getID()));
+                currentUser.getNote(currentNote.getID()).setImage(true);
+
                 saveToFirebase(currentUser);
                 finish();
+
                 startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-
-
             }
         });
     }
@@ -132,5 +135,10 @@ public class EditNoteActivity extends NoteScreenActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Glide
+                .with(getApplicationContext())
+                .load(data.getData())
+                .into(activity_note_screen_IMG_image);
+
     }
 }
