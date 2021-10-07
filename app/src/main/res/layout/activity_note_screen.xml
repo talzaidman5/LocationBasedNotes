@@ -43,8 +43,8 @@
         android:layout_below="@+id/activity_note_screen_EDT_title"
         android:textStyle="bold" />
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/activity_note_screen_EDT_body"
         android:layout_centerInParent="true"
         android:id="@+id/activity_note_screen_IMG_image"></ImageView>

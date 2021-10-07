@@ -73,9 +73,9 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int pos) {
-        currentNote = getItem(pos);
+        currentNote = (Note)this.getItem(pos);
 
-        ViewHolder_Normal mHolder = (ViewHolder_Normal) holder;
+       ViewHolder_Normal mHolder = (ViewHolder_Normal) holder;
         if(currentNote.isImage())
             DownloadImage(mHolder);
         else
@@ -88,12 +88,16 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         mHolder.note_BTN_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("noteID","EDIT "+currentNote.getID());
+
                 EditNote();
             }
         });
 
     }
-
+    public interface OnEditNoteListener{
+        void onNoteClick(int position);
+    }
     private void DownloadImage(ViewHolder_Normal mHolder) {
         getUserFromMSP();
         mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).getDownloadUrl().
@@ -106,7 +110,6 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 .into(mHolder.note_IMG_image);
 
 
-                        Log.d("secc",uri.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

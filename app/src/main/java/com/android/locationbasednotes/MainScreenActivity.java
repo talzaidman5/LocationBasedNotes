@@ -59,7 +59,6 @@ public class MainScreenActivity extends AppCompatActivity {
         activity_main_BTN_createNewNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(getApplicationContext(), NoteScreenActivity.class));
             }
         });
