@@ -82,9 +82,9 @@ public class LoginActivity extends AuthenticateBaseActivity {
                             authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
                             firebaseUser = auth.getCurrentUser();
                             getFromFirebase();
-                                if(currentUser.isLoginAuth()!=isLoginAuth)
-                                    currentUser.setLoginAuth(isLoginAuth);
-                                    saveToFirebase(currentUser);
+                            if (currentUser.isLoginAuth() != isLoginAuth)
+                                currentUser.setLoginAuth(isLoginAuth);
+                            saveToFirebase(currentUser);
                         } else
                             Toast.makeText(getApplicationContext(), getString(R.string.AuthenticationFailed), Toast.LENGTH_SHORT).show();
                     }

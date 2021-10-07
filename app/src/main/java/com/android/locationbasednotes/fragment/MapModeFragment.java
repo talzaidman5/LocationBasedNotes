@@ -2,7 +2,6 @@ package com.android.locationbasednotes.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-
 
 public class MapModeFragment extends Fragment implements OnMapReadyCallback , GoogleMap.OnMarkerClickListener {
     private View view;
@@ -65,14 +63,12 @@ public class MapModeFragment extends Fragment implements OnMapReadyCallback , Go
                    mMap.setOnMarkerClickListener(this);
                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                }
-
            }
        }
     protected void putOnMSP(Note currentNote) {
         String note = gson.toJson(currentNote);
         msp.putString(getString(R.string.noteKey), note);
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {

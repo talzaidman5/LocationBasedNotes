@@ -4,16 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.data.User;
+import com.bumptech.glide.Glide;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +24,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +71,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     private Uri fileUri;
     protected StorageReference mStorageRef;
     private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,13 +82,13 @@ public class NoteScreenActivity extends AppCompatActivity {
         findViews();
         getUserFromMSP();
         activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
-
+        activity_note_screen_BTN_delete.setOnClickListener(v -> finish());
         activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText()))
                     activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
-                saveNote();
+                    saveNote();
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
@@ -105,10 +105,6 @@ public class NoteScreenActivity extends AppCompatActivity {
         myRef = database.getReference(getString(R.string.AllUsersFirebase));
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
-    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -132,6 +128,11 @@ public class NoteScreenActivity extends AppCompatActivity {
         } else {
             if (resultCode == Activity.RESULT_OK) {
                 fileUri = data.getData();
+                Glide
+                        .with(getApplicationContext())
+                        .load(fileUri)
+                        .into(activity_note_screen_IMG_image);
+
                 isAddImage = true;
             } else if (resultCode == ImagePicker.RESULT_ERROR)
                 Toast.makeText(this, new ImagePicker().Companion.getError(data), Toast.LENGTH_SHORT).show();

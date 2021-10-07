@@ -34,8 +34,5 @@ public class MainActivity extends AppCompatActivity {
         main_activity_BTN_login = findViewById(R.id.main_activity_BTN_login);
         main_activity_BTN_signup = findViewById(R.id.main_activity_BTN_signup);
     }
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
-    }
+
 }

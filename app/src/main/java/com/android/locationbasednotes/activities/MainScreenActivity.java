@@ -56,6 +56,7 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
+                finish();
                 startNewActivity(MainActivity.class);
             }
         });
@@ -63,7 +64,6 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     private void startNewActivity(Class<?> newActivity) {
-        finish();
         startActivity(new Intent(getApplicationContext(), newActivity));
     }
 

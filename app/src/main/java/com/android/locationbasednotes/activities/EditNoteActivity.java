@@ -97,6 +97,8 @@ public class EditNoteActivity extends NoteScreenActivity {
 
         updateDataActivity(true,currentNote.getTitle(),currentNote.getBody());
         activity_note_screen_TXT_title.setText(getString(R.string.editNote));
+        activity_note_screen_EDT_body.getEditText().setText(currentNote.getBody());
+        activity_note_screen_EDT_title.getEditText().setText(currentNote.getTitle());
         if (currentNote.isImage())
             downloadImage(activity_note_screen_IMG_image);
         else

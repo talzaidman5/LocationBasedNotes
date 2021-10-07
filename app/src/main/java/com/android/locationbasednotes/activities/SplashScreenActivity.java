@@ -2,13 +2,9 @@ package com.android.locationbasednotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
-
 import com.android.locationbasednotes.R;
-import com.android.locationbasednotes.authenticating.LoginActivity;
 import com.android.locationbasednotes.data.User;
 import com.android.locationbasednotes.utils.MySheredP;
 import com.google.gson.Gson;
@@ -37,10 +33,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         InitData();
 
-        if (currentUserFB != null) {
+        if (currentUserFB != null)
             ReadFromFirebase();
-
-        } else {
+         else {
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
@@ -68,14 +63,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-    }
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        // Your code here
-        return super.dispatchTouchEvent(ev);
     }
     private void startNewActivity(Class<?> newActivity) {
         finish();
