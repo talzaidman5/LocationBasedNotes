@@ -62,6 +62,7 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
+                finish();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
             }
