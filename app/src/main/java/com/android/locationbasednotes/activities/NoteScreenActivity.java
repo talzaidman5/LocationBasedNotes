@@ -67,7 +67,7 @@ public class NoteScreenActivity extends AppCompatActivity {
     private ImageView activity_note_screen_IMG_image;
     private boolean isAddImage = false;
     private Uri fileUri;
-    private StorageReference mStorageRef;
+    protected StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,7 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.android.locationbasednotes.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class EditNoteActivity extends NoteScreenActivity {
 
@@ -14,6 +20,7 @@ public class EditNoteActivity extends NoteScreenActivity {
         getSupportActionBar().hide();
 
         activity_note_screen_TXT_title.setText(getString(R.string.editNote));
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
        currentNote = getNoteFromMSP();
        currentUser = getUserFromMSP();
@@ -41,6 +48,15 @@ public class EditNoteActivity extends NoteScreenActivity {
     }
 
     private void DeleteNote() {
+        mStorageRef.child(currentUser.getUid()).child(currentNote.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        });
         currentUser.deleteNote(currentNote);
         SaveToFirebase(currentUser);
     }
