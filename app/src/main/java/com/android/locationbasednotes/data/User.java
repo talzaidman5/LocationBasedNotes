@@ -42,33 +42,11 @@ public class User {
         this.loginAuth = loginAuth;
     }
 
-    public void setUid(String uid) {
-        Uid = uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public List<Note> getNoteList() {
         return noteList;
     }
 
-    public void setNoteList(List<Note> noteList) {
-        this.noteList = noteList;
-    }
 
     public void addToNoteList(Note note){
         if(this.noteList == null)

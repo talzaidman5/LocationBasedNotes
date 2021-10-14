@@ -35,16 +35,6 @@ public class Note {
         return location;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-
-
-    public void setLocation(List<Double> location) {
-        this.location = location;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -53,9 +43,6 @@ public class Note {
         return ID;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public String getTitle() {
         return title;

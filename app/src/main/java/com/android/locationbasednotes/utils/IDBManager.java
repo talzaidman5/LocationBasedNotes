@@ -11,14 +11,13 @@ import com.android.locationbasednotes.firebase.OnUserSignCallback;
 
 public interface IDBManager {
 
-    public void readFromDB(String userID, Context activityContext, OnUserFetchedCallback callback);
-
-    public void writeToDB(User user);
-    public void deleteImageFromDB(User user, Note currentNote, String textOnSuccess);
-    public void downloadImageFromDB(Note currentNote, OnUserFetchedUriCallback callback);
-    public String getCurrentUserIDFromDB() ;
-    public void signOut ();
-    public void createUserWithEmailAndPassword(String email, String password, OnUserSignCallback onUserSignCallback);
-    public void saveImageInDB(Note note, Uri fileUri,User user);
-    public void signInWithEmailAndPassword(String email, String password, OnUserSignCallback onUserSignCallback);
+     void readFromDB(String userID, Context activityContext, OnUserFetchedCallback callback);
+     void writeToDB(User user);
+     void deleteImageFromDB(User user, Note currentNote, String textOnSuccess);
+     void downloadImageFromDB(Note currentNote, OnUserFetchedUriCallback callback);
+     String getCurrentUserIDFromDB() ;
+     void signOut ();
+     void createUserWithEmailAndPassword(String email, String password, OnUserSignCallback onUserSignCallback);
+     void saveImageInDB(Note note, Uri fileUri,User user);
+     void signInWithEmailAndPassword(String email, String password, OnUserSignCallback onUserSignCallback);
     }

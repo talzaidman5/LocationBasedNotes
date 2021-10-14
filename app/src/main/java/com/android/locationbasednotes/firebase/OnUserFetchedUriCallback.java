@@ -4,5 +4,5 @@ import android.net.Uri;
 
 
 public interface OnUserFetchedUriCallback {
-    public void OnUserFetched(Uri uri);
+    void OnUserFetched(Uri uri);
 }
