@@ -65,31 +65,28 @@ public class NoteScreenActivity extends AppCompatActivity {
     private Uri fileUri;
     private final int INTERVAL=5000,FASTEST_INTERVAL =2000;
     protected IDBManager dbManager;
+    protected ProgressBar activity_note_screen_PRG_progressImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
-        getSupportActionBar().hide();
-
-        initData();
         findViews();
+        initData();
         getUserFromMSP();
-        activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
         activity_note_screen_BTN_delete.setOnClickListener(v -> finish());
-        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
-                    activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
-                    getLocationAndCreateNote();
-                }
+        activity_note_screen_BTN_save.setOnClickListener(view -> {
+            if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
+                activity_note_screen_PRB_progressBar.setVisibility(View.VISIBLE);
+                getLocationAndCreateNote();
             }
         });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
     }
 
     private void initData() {
+        getSupportActionBar().hide();
+        activity_note_screen_PRB_progressBar.setVisibility(View.INVISIBLE);
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(INTERVAL);
@@ -122,16 +119,19 @@ public class NoteScreenActivity extends AppCompatActivity {
         } else {
             if (resultCode == Activity.RESULT_OK) {
                 fileUri = data.getData();
-                Glide
-                        .with(getApplicationContext())
-                        .load(fileUri)
-                        .into(activity_note_screen_IMG_image);
+                glideFunction(getApplicationContext(),fileUri,activity_note_screen_IMG_image);
                 isAddImage = true;
             } else if (resultCode == ImagePicker.RESULT_ERROR)
                 Toast.makeText(this, new ImagePicker().Companion.getError(data), Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
+    }
+    protected void glideFunction(Context content, Uri uri, ImageView imageView){
+        Glide
+                .with(content)
+                .load(uri)
+                .into(imageView);
     }
 
 
@@ -180,29 +180,25 @@ public class NoteScreenActivity extends AppCompatActivity {
 
             }
         });
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+        result.addOnCompleteListener(task -> {
+            try {
+                LocationSettingsResponse response = task.getResult(ApiException.class);
+                Toast.makeText(NoteScreenActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
 
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(NoteScreenActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
 
-                } catch (ApiException e) {
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult(NoteScreenActivity.this, 2);
+                        } catch (IntentSender.SendIntentException ex) {
+                            ex.printStackTrace();
+                        }
+                        break;
 
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult(NoteScreenActivity.this, 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            break;
-                    }
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
                 }
             }
         });
@@ -227,7 +223,7 @@ public class NoteScreenActivity extends AppCompatActivity {
             saveImage(note);
         }
         addNoteToUser(note);
-        Toast.makeText(getApplicationContext(), "New note successfully added!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.newNote), Toast.LENGTH_LONG).show();
         finish();
         startActivity(new Intent(this, MainScreenActivity.class));
     }
@@ -252,8 +248,6 @@ public class NoteScreenActivity extends AppCompatActivity {
         dbManager.writeToDB(currentUser);
     }
 
-
-
     private void findViews() {
         activity_note_screen_BTN_delete = findViewById(R.id.activity_note_screen_BTN_delete);
         activity_note_screen_BTN_save = findViewById(R.id.activity_note_screen_BTN_save);
@@ -263,6 +257,7 @@ public class NoteScreenActivity extends AppCompatActivity {
         activity_note_screen_BTN_uploadImage = findViewById(R.id.activity_note_screen_BTN_uploadImage);
         activity_note_screen_IMG_image = findViewById(R.id.activity_note_screen_IMG_image);
         activity_note_screen_PRB_progressBar = findViewById(R.id.activity_note_screen_PRB_progressBar);
+        activity_note_screen_PRG_progressImage = findViewById(R.id.activity_note_screen_PRG_progressImage);
     }
 
     protected User getUserFromMSP() {
@@ -287,6 +282,7 @@ public class NoteScreenActivity extends AppCompatActivity {
                 .compress(1024)
                 .maxResultSize(1080, 1080)
                 .start();
+        isAddImage = true;
     }
 
 }

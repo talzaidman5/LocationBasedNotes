@@ -35,12 +35,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                     if (user.isLoginAuth())
                         startNewActivity(MainScreenActivity.class);
                     else
-                        startNewActivity(MainActivity.class);
+                        startNewActivity(AuthenticateActivity.class);
                 }
             });
         else {
             finish();
-            startActivity(new Intent(this, MainActivity.class));
+            startNewActivity(AuthenticateActivity.class);
         }
     }
 
@@ -48,7 +48,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         msp = new MySheredP(this);
         currentUserID = dbManager.getCurrentUserIDFromDB();
     }
-
 
 
     private void startNewActivity(Class<?> newActivity) {

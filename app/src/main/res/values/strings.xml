@@ -7,7 +7,6 @@
     <string name="emptyFields">Please Enter fields</string>
     <string name="loginAuthButton">signUp_BTN_loginAuth</string>
     <string name="loginAuthText">Login automatically</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="listMode">List Mode</string>
     <string name="mapMode">Map Mode</string>
@@ -18,4 +17,7 @@
     <string name="are_you_sure_signup">Are you sure you want to Sign Out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="deletedNote">The note has been deleted</string>
+    <string name="updateNote">Updated note successfully</string>
+    <string name="newNote">New note successfully added!</string>
 </resources>

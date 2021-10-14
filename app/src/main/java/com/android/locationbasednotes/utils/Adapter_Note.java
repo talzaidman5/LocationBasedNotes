@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,9 +67,10 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         currentNote = (Note)this.getItem(pos);
 
        ViewHolder_Normal mHolder = (ViewHolder_Normal) holder;
-        if(currentNote.isImage())
+        if(currentNote.isImage()) {
+            mHolder.note_PRG_progressImage.setVisibility(View.VISIBLE);
             downloadImage(mHolder);
-        else
+        }        else
             mHolder.note_IMG_image.setBackgroundColor(context.getColor(R.color.noteWithoutImage));
         mHolder.note_LBL_title.setText(currentNote.getTitle());
         mHolder.note_LBL_body.setText(currentNote.getBody());
@@ -98,6 +100,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .with(context)
                         .load(uri)
                         .into(mHolder.note_IMG_image);
+                mHolder.note_PRG_progressImage.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -122,6 +125,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView note_LBL_date;
         public Button note_BTN_edit;
         public ImageView note_IMG_image;
+        public ProgressBar note_PRG_progressImage;
 
         public ViewHolder_Normal(View itemView) {
             super(itemView);
@@ -131,6 +135,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             note_LBL_body = itemView.findViewById(R.id.note_LBL_body);
             note_BTN_edit = itemView.findViewById(R.id.note_BTN_edit);
             note_IMG_image = itemView.findViewById(R.id.note_IMG_image);
+            note_PRG_progressImage = itemView.findViewById(R.id.note_PRG_progressImage);
         }
 
         @Override

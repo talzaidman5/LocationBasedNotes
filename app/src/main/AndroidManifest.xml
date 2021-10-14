@@ -17,7 +17,7 @@
             android:value="@string/map_key" />
 
         <activity android:name=".activities.EditNoteActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activities.MainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.AuthenticateActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.NoteScreenActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".authenticating.SignupActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.MainScreenActivity" android:screenOrientation="portrait"></activity>

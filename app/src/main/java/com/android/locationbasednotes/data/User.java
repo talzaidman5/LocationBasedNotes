@@ -69,6 +69,7 @@ public class User {
     public void setNoteList(List<Note> noteList) {
         this.noteList = noteList;
     }
+
     public void addToNoteList(Note note){
         if(this.noteList == null)
             this.noteList = new ArrayList<>();
@@ -84,8 +85,10 @@ public class User {
 
     public void deleteNote(Note currentNote) {
         for (Note note : noteList) {
-            if (note.getID().equals(currentNote.getID()))
+            if (note.getID().equals(currentNote.getID())) {
                 noteList.remove(note);
+                return;
+            }
         }
     }
 }

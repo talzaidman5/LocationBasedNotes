@@ -25,30 +25,4 @@ public class MySheredP {
         editor.apply();
     }
 
-    public int getInt(String key, int defValue)
-    {
-        return prefs.getInt(key  , defValue);
-    }
-
-
-    public void putInt(String key, int value)
-    {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-
-    public void removeKey(String key)
-    {
-        prefs.edit().remove(key);
-    }
-
-
-    public boolean isValid()
-    {
-        if(!prefs.contains("initialized"))
-            return true;
-        return false;
-    }
 }

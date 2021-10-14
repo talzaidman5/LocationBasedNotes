@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFEF87"
+    android:background="@color/backgroundColor"
     tools:context=".activities.NoteScreenActivity">
     <TextView
         android:id="@+id/activity_note_screen_TXT_title"
@@ -73,7 +73,16 @@
         android:layout_height="100dp"
         android:layout_below="@+id/activity_note_screen_EDT_body"
         android:layout_centerInParent="true"
-        android:id="@+id/activity_note_screen_IMG_image"></ImageView>
+        android:id="@+id/activity_note_screen_IMG_image">
+    </ImageView>
+    <ProgressBar
+        android:id="@+id/activity_note_screen_PRG_progressImage"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/activity_note_screen_EDT_body"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.activities.NoteScreenActivity;
 import com.android.locationbasednotes.data.Note;
 import com.android.locationbasednotes.data.User;
@@ -88,7 +89,7 @@ public class FirebaseManager  implements IDBManager { // Singleton object
         mStorageRef.child(user.getUid()).child(currentNote.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(context, textOnSuccess, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.deletedNote), Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

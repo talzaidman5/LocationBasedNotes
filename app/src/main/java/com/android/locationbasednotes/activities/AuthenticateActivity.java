@@ -11,7 +11,7 @@ import com.android.locationbasednotes.R;
 import com.android.locationbasednotes.authenticating.LoginActivity;
 import com.android.locationbasednotes.authenticating.SignupActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class AuthenticateActivity extends AppCompatActivity {
     private Button main_activity_BTN_login, main_activity_BTN_signup;
 
     @Override
@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         findViews();
-        main_activity_BTN_login.setOnClickListener(v ->startNewActivity(LoginActivity.class));
-        main_activity_BTN_signup.setOnClickListener(v ->  startNewActivity(SignupActivity.class));
+        main_activity_BTN_login.setOnClickListener(v -> startNewActivity(LoginActivity.class));
+        main_activity_BTN_signup.setOnClickListener(v -> startNewActivity(SignupActivity.class));
     }
 
     private void startNewActivity(Class<?> newActivity) {

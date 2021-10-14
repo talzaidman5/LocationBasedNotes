@@ -76,5 +76,8 @@ public class AuthenticateBaseActivity extends AppCompatActivity  {
         authenticate_base_LIY_layout =  findViewById(R.id.authenticate_base_LIY_layout);
         authenticate_base_PRB_progressBar =  findViewById(R.id.authenticate_base_PRB_progressBar);
     }
-
+    protected void changeFieldsToLogin(String title) {
+        authenticate_base_BTN_do_action.setText(title);
+        authenticate_base_TXT_title.setText(title);
+    }
 }

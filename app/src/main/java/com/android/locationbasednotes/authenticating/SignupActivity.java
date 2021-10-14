@@ -20,53 +20,38 @@ public class SignupActivity extends AuthenticateBaseActivity  {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        msp = new MySheredP(this);
-        changeFieldsToLogin();
+        changeFieldsToLogin(getString(R.string.signup));
 
-        authenticate_base_BTN_do_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeKeyboard(view);
-                if(checkField(authenticate_base_EDT_email.getEditText()) && checkField(authenticate_base_EDT_password.getEditText()))
-                  register(authenticate_base_EDT_email.getEditText().getText().toString(), authenticate_base_EDT_password.getEditText().getText().toString());
-            }
+        authenticate_base_BTN_do_action.setOnClickListener(view -> {
+            closeKeyboard(view);
+            EditText currentEmail =authenticate_base_EDT_email.getEditText(),
+                    currentPassword =authenticate_base_EDT_password.getEditText();
+            if(checkField(currentEmail) && checkField(currentPassword))
+              register(currentEmail.getText().toString(), currentPassword.getText().toString());
         });
-    }
-    protected boolean checkField(EditText editTextToCheck) {
-        if (editTextToCheck.getText().toString().equals("")) {
-            editTextToCheck.setError(getText(R.string.editTextError));
-            return false;
-        }
-        return true;
     }
 
 
     private void register(String email, String password) {
         if (email != null && password != null) {
-            dbManager.createUserWithEmailAndPassword(email, password , new OnUserSignCallback(){
-                @Override
-                public void OnUserSign(Task task) {
+            dbManager.createUserWithEmailAndPassword(email, password , task -> {
 
-                if (task.isSuccessful()) {
-                        authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
-                        String userID = dbManager.getCurrentUserIDFromDB();
-                        assert userID != null;
-                        User user = new User(email, password, userID);
-                        dbManager.writeToDB(user);
-                        putOnMSP(user);
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-                    } else
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            if (task.isSuccessful()) {
+                    authenticate_base_PRB_progressBar.setVisibility(View.VISIBLE);
+                    String userID = dbManager.getCurrentUserIDFromDB();
+                    assert userID != null;
+                    User user = new User(email, password, userID);
+                    dbManager.writeToDB(user);
+                    putOnMSP(user);
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                } else
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             });
         } else
             Toast.makeText(getApplicationContext(), getString(R.string.emptyFields), Toast.LENGTH_SHORT).show();
     }
 
-    private void changeFieldsToLogin() {
-        authenticate_base_BTN_do_action.setText(getString(R.string.signup));
-        authenticate_base_TXT_title.setText(getString(R.string.signup));
-    }
+
 
 }

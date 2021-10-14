@@ -8,7 +8,7 @@
     tools:context=".authenticating.SignupActivity"
     android:gravity="right"
     android:id="@+id/authenticate_base_LIY_layout"
-    android:background="#FFEF87"
+    android:background="@color/backgroundColor"
     android:orientation="vertical">
 
     <TextView

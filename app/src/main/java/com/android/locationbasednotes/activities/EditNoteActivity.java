@@ -22,39 +22,22 @@ public class EditNoteActivity extends NoteScreenActivity {
         currentNote = getNoteFromMSP();
         currentUser = getUserFromMSP();
 
-        setNoteData();
+        initNoteData();
 
-        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateDataActivity(false,activity_note_screen_EDT_title.getEditText().getText().toString(),
-                        activity_note_screen_EDT_body.getEditText().getText().toString());
-                dbManager.writeToDB(currentUser);
-                Toast.makeText(getApplicationContext(), "Updated note successfully", Toast.LENGTH_LONG).show();
-            }
-        });
         activity_note_screen_BTN_uploadImage.setOnClickListener(v -> getImage());
 
-        activity_note_screen_BTN_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteNote();
-            }
-        });
-        activity_note_screen_BTN_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
-                    saveNewData();
-                    dbManager.writeToDB(currentUser);
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-                    if(isAddImage) {
-                        dbManager.saveImageInDB(currentNote,uri,currentUser);
-                    }
-                }
-            }
-        });
+        activity_note_screen_BTN_delete.setOnClickListener(v -> deleteNote());
+        activity_note_screen_BTN_save.setOnClickListener(v -> saveNote());
+    }
+
+    private void saveNote() {
+        if (checkField(activity_note_screen_EDT_title.getEditText()) && checkField(activity_note_screen_EDT_body.getEditText())) {
+            saveNewData();
+            if(isAddImage)
+                dbManager.saveImageInDB(currentNote,uri,currentUser);
+            finish();
+            startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+        }
     }
 
     private void updateDataActivity(boolean enabled, String title, String body) {
@@ -66,27 +49,32 @@ public class EditNoteActivity extends NoteScreenActivity {
     }
 
     private void saveNewData() {
+
+        updateDataActivity(false,activity_note_screen_EDT_title.getEditText().getText().toString(),
+                activity_note_screen_EDT_body.getEditText().getText().toString());
         saveImage(currentUser.getNote(currentNote.getID()));
         currentUser.getNote(currentNote.getID()).setImage(true);
-        currentUser.getNote(currentNote.getID()).setTitle(activity_note_screen_EDT_title.getEditText().getText().toString());
-        currentUser.getNote(currentNote.getID()).setBody(activity_note_screen_EDT_body.getEditText().getText().toString());
+        dbManager.writeToDB(currentUser);
+
+        Toast.makeText(getApplicationContext(), getString(R.string.updateNote), Toast.LENGTH_LONG).show();
     }
 
     private void deleteNote() {
-
         dbManager.deleteImageFromDB(currentUser,currentNote,"Note deleted");
         currentUser.deleteNote(currentNote);
         dbManager.writeToDB(currentUser);
     }
 
-    private void setNoteData() {
-
+    private void initNoteData() {
         updateDataActivity(true,currentNote.getTitle(),currentNote.getBody());
         activity_note_screen_TXT_title.setText(getString(R.string.editNote));
         activity_note_screen_EDT_body.getEditText().setText(currentNote.getBody());
         activity_note_screen_EDT_title.getEditText().setText(currentNote.getTitle());
-        if (currentNote.isImage())
+        isAddImage = false;
+        if (currentNote.isImage()) {
+            activity_note_screen_PRG_progressImage.setVisibility(View.VISIBLE);
             downloadImage();
+        }
         else
             activity_note_screen_IMG_image.setVisibility(View.INVISIBLE);
 
@@ -94,15 +82,9 @@ public class EditNoteActivity extends NoteScreenActivity {
 
     private void downloadImage() {
         getUserFromMSP();
-        dbManager.downloadImageFromDB(currentNote, new OnUserFetchedUriCallback() {
-            @Override
-            public void OnUserFetched(Uri uri) {
-                isAddImage = true;
-                Glide
-                        .with(getApplicationContext())
-                        .load(uri)
-                        .into(activity_note_screen_IMG_image);
-            }
+        dbManager.downloadImageFromDB(currentNote, uri -> {
+            glideFunction(getApplicationContext(), uri, activity_note_screen_IMG_image);
+            activity_note_screen_PRG_progressImage.setVisibility(View.INVISIBLE);
         });
     }
 
@@ -110,16 +92,11 @@ public class EditNoteActivity extends NoteScreenActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         activity_note_screen_IMG_image.setVisibility(View.VISIBLE);
-        Glide
-                .with(getApplicationContext())
-                .load(data.getData())
-                .into(activity_note_screen_IMG_image);
+        glideFunction(getApplicationContext(), data.getData(), activity_note_screen_IMG_image);
         uri = data.getData();
     }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        // Your code here
         return super.dispatchTouchEvent(ev);
     }
 }

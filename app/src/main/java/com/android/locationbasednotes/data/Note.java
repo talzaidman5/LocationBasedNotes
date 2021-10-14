@@ -1,8 +1,4 @@
 package com.android.locationbasednotes.data;
-
-import android.location.Location;
-import android.net.Uri;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

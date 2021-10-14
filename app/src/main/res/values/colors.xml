@@ -11,5 +11,6 @@
     <color name="red">#FF0000</color>
     <color name="gray">#BABABA</color>
     <color name="noteWithoutImage">#BABABA</color>
+    <color name="backgroundColor">#FFEF87</color>
 
 </resources>

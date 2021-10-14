@@ -43,12 +43,7 @@ public class ListModeFragment extends Fragment {
     }
     public void showAllNotes() {
         if(currentUser.getNoteList()!=null) {
-            Collections.sort(currentUser.getNoteList(), new Comparator<Note>() {
-                @Override
-                public int compare(Note note1, Note note2) {
-                    return note1.getDate().compareTo(note2.getDate());
-                }
-            });
+            Collections.sort(currentUser.getNoteList(), (note1, note2) -> note1.getDate().compareTo(note2.getDate()));
             Adapter_Note adapter_note = new Adapter_Note(currentUser.getNoteList(),getContext());
             activity_main_LST_notes.setLayoutManager(new LinearLayoutManager(getContext()));
             activity_main_LST_notes.setItemAnimator(new DefaultItemAnimator());
