@@ -70,11 +70,13 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     private void handleEmptyNotesList() {
-        if (currentUser.getNoteList().size() > 0)
-            activity_main_TXT_noNotes.setVisibility(View.INVISIBLE);
-        else {
-            activity_main_TXT_noNotes.setText("No Notes");
-            activity_main_TXT_noNotes.setVisibility(View.VISIBLE);
+        if(currentUser.getNoteList()!=null) {
+            if (currentUser.getNoteList().size() > 0)
+                activity_main_TXT_noNotes.setVisibility(View.INVISIBLE);
+            else {
+                activity_main_TXT_noNotes.setText("No Notes");
+                activity_main_TXT_noNotes.setVisibility(View.VISIBLE);
+            }
         }
     }
 
